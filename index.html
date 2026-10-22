@@ -370,4 +370,100 @@ window.gxrvLogout = function () {
 
 console.log("GXRV Firebase initialized.");
 </script>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC5Z_ZK-Ov7DLNI6zMXdV3skBM5KnuZmpQ",
+  authDomain: "gxrv-blox-fruit-trading-83c73.firebaseapp.com",
+  projectId: "gxrv-blox-fruit-trading-83c73",
+  storageBucket: "gxrv-blox-fruit-trading-83c73.firebasestorage.app",
+  messagingSenderId: "668068089107",
+  appId: "1:668068089107:web:25fe37553a19ddde721ee6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Register with email and password
+window.gxrvRegister = async function(name, email, password) {
+  const result = await createUserWithEmailAndPassword(
+    auth, email.trim(), password
+  );
+
+  const communityId = String(
+    Math.floor(10000000 + Math.random() * 90000000)
+  );
+
+  await setDoc(doc(db, "users", result.user.uid), {
+    communityId,
+    displayName: name.trim(),
+    createdAt: new Date().toISOString()
+  });
+
+  return result.user;
+};
+
+// Login with email and password
+window.gxrvLogin = function(email, password) {
+  return signInWithEmailAndPassword(auth, email.trim(), password);
+};
+
+// Google login
+window.gxrvGoogleLogin = function() {
+  return signInWithPopup(auth, new GoogleAuthProvider());
+};
+
+// Reset password
+window.gxrvForgotPassword = function(email) {
+  return sendPasswordResetEmail(auth, email.trim());
+};
+
+// Current login status
+window.gxrvWatchUser = function(callback) {
+  return onAuthStateChanged(auth, callback);
+};
+
+// Logout
+window.gxrvLogout = function() {
+  return signOut(auth);
+};
+
+// Search profile using community ID
+window.gxrvFindProfile = async function(communityId) {
+  const snapshot = await getDocs(
+    query(collection(db, "users"), where("communityId", "==", String(communityId)))
+  );
+
+  if (snapshot.empty) return null;
+
+  const data = snapshot.docs[0].data();
+
+  return {
+    communityId: data.communityId,
+    displayName: data.displayName
+  };
+};
+
+console.log("GXRV Firebase connected");
+  </script>
 </body></html>
