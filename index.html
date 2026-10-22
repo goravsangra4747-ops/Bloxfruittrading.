@@ -23,10 +23,11 @@ a{color:inherit;text-decoration:none}.top{position:sticky;top:0;z-index:5;backgr
   <div class="auth-box">
     <div class="auth-head"><div><div class="eyebrow">GXRV COMMUNITY</div><h2 id="authTitle" style="margin:5px 0 0">Welcome back</h2></div><button class="auth-close" id="closeAuth" aria-label="Close" type="button">×</button></div>
     <div class="auth-tabs"><button class="btn" id="loginTab" type="button">Login</button><button class="btn secondary" id="registerTab" type="button">Register</button></div>
-    <form class="auth-form" id="loginForm"><div><label for="loginIdentity">Username or Gmail</label><input id="loginIdentity" autocomplete="username" placeholder="GXRV or name@gmail.com" required></div><div><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="6" required></div><button class="btn" type="submit">Login</button></form>
+    <button class="btn secondary" id="googleLogin" type="button">Continue with Google</button>
+    <form class="auth-form" id="loginForm"><div><label for="loginIdentity">Gmail / Email</label><input id="loginIdentity" type="email" autocomplete="email" placeholder="name@gmail.com" required></div><div><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="6" required></div><button class="btn" type="submit">Login</button><button class="btn secondary" id="forgotPassword" type="button">Forgot password?</button></form>
     <form class="auth-form" id="registerForm" style="display:none"><div><label for="regUsername">Username</label><input id="regUsername" maxlength="24" autocomplete="username" placeholder="Choose a username" required></div><div><label for="regEmail">Gmail / Email</label><input id="regEmail" type="email" autocomplete="email" placeholder="name@gmail.com" required></div><div><label for="regPassword">Password (6+ characters)</label><input id="regPassword" type="password" autocomplete="new-password" minlength="6" required></div><button class="btn" type="submit">Create Account</button></form>
     <div class="auth-status" id="authStatus" aria-live="polite"></div>
-    <div class="auth-note">Demo account system: accounts are saved only in this browser and won't work across devices. This is not secure production authentication. Real Google/Gmail sign-in and shared accounts require Firebase or another backend. Never reuse your Roblox password here.</div>
+    <div class="auth-note">Real shared login needs your Firebase project configuration added to this file. Never use your Roblox password here.</div>
   </div>
 </div>
 <main class="wrap" id="home">
@@ -70,7 +71,7 @@ a{color:inherit;text-decoration:none}.top{position:sticky;top:0;z-index:5;backgr
     </div>
     <aside>
       <section class="panel"><h2>🛡 Trading Guide</h2><div class="sub">A few simple ways to trade safer.</div><ol class="safety"><li>Check both fruits' values before agreeing.</li><li>Confirm current stock in the game.</li><li>Use official in-game trade windows.</li><li>Never share Roblox passwords or verification codes.</li><li>Report suspicious offers to community moderators.</li></ol></section>
-      <section class="panel" id="community"><h2>👥 Community</h2><p class="sub">Trade respectfully. Keep offers clear and don't pressure anyone.</p><div class="stock-row"><span class="fruit-icon">⚡</span><div class="name">Fast listings</div><span class="stock-num">Browse offers</span></div><div class="stock-row"><span class="fruit-icon">🛡️</span><div class="name">Safer trading</div><span class="stock-num">Stay alert</span></div><div class="stock-row"><span class="fruit-icon">🔥</span><div class="name">Fruit values</div><span class="stock-num">Compare first</span></div></section>
+      <section class="panel" id="community"><h2>👥 Community</h2><p class="sub">Trade respectfully. Keep offers clear and don't pressure anyone.</p><div style="margin:14px 0;padding:14px;border:1px solid #45101d;border-radius:12px"><h3 style="margin-top:0">🔎 Find a player by ID</h3><p class="sub">Every registered user gets a unique 8-digit community ID.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="userIdSearch" inputmode="numeric" maxlength="8" placeholder="Enter 8-digit player ID" style="flex:1;min-width:150px;background:#05070a;color:white;border:1px solid #303540;border-radius:9px;padding:11px"><button class="btn" id="searchUserId" type="button">Search ID</button></div><div id="userSearchResult" class="sub" style="margin-top:10px" aria-live="polite"></div><div id="myPublicId" style="margin-top:8px;font-weight:800;color:#ff7188"></div></div><div class="stock-row"><span class="fruit-icon">⚡</span><div class="name">Fast listings</div><span class="stock-num">Browse offers</span></div><div class="stock-row"><span class="fruit-icon">🛡️</span><div class="name">Safer trading</div><span class="stock-num">Stay alert</span></div><div class="stock-row"><span class="fruit-icon">🔥</span><div class="name">Fruit values</div><span class="stock-num">Compare first</span></div></section>
       <section class="panel" id="rules"><h2>📜 Rules</h2><ol class="safety"><li>No scams, threats, or abusive messages.</li><li>No fake trusted badges or false claims.</li><li>No account selling or password sharing.</li><li>Fruit values are estimates, not guarantees.</li></ol></section>
       <section class="panel"><h2>🔴 Trade Safe. Trade Smart.</h2><p class="sub">Use trusted community moderators where available. This is an unofficial fan-made trading helper and is not affiliated with the Blox Fruits developers.</p></section>
     </aside>
@@ -154,18 +155,64 @@ function renderListings(){let all=[...getMine(),...sampleListings];$("listings")
 function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 // Front-end demo authentication. Real multi-device auth needs a trusted backend.
 const authModal=$("authModal");let authMode="login";
-function getAccounts(){try{return JSON.parse(localStorage.getItem("bft_demo_accounts")||"[]")}catch(e){return []}}
-function currentUser(){try{return JSON.parse(sessionStorage.getItem("bft_demo_session")||"null")}catch(e){return null}}
-function updateAuthUI(){const u=currentUser();$("userBadge").textContent=u?"👤 "+u.username:"Guest";$("openAuth").textContent=u?"Account":"Login / Register";$("logoutBtn").style.display=u?"inline-block":"none";if(u&&$("username"))$("username").value=u.username}
-function switchAuth(mode){authMode=mode;$("authTitle").textContent=mode==="login"?"Welcome back":"Create your account";$("loginForm").style.display=mode==="login"?"grid":"none";$("registerForm").style.display=mode==="register"?"grid":"none";$("loginTab").className=mode==="login"?"btn":"btn secondary";$("registerTab").className=mode==="register"?"btn":"btn secondary";$("authStatus").textContent=""}
-async function passHash(pass){const bytes=new TextEncoder().encode(pass);const digest=await crypto.subtle.digest("SHA-256",bytes);return Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("")}
-$("openAuth").onclick=()=>{if(currentUser()){alert("Logged in as "+currentUser().username);return}authModal.classList.add("open");switchAuth("login")};$("closeAuth").onclick=()=>authModal.classList.remove("open");authModal.addEventListener("click",e=>{if(e.target===authModal)authModal.classList.remove("open")});$("loginTab").onclick=()=>switchAuth("login");$("registerTab").onclick=()=>switchAuth("register");
-$("registerForm").addEventListener("submit",async e=>{e.preventDefault();const username=$("regUsername").value.trim(),email=$("regEmail").value.trim().toLowerCase(),password=$("regPassword").value;let accounts=getAccounts();if(accounts.some(a=>a.username.toLowerCase()===username.toLowerCase()||a.email===email)){$("authStatus").textContent="Username or email already registered in this browser.";return}accounts.push({username,email,passHash:await passHash(password)});localStorage.setItem("bft_demo_accounts",JSON.stringify(accounts));sessionStorage.setItem("bft_demo_session",JSON.stringify({username,email}));updateAuthUI();authModal.classList.remove("open");alert("Demo account created! It is saved only on this device.")});
-$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const identity=$("loginIdentity").value.trim().toLowerCase(),hash=await passHash($("loginPassword").value),account=getAccounts().find(a=>(a.username.toLowerCase()===identity||a.email===identity)&&a.passHash===hash);if(!account){$("authStatus").textContent="Login failed. Check your username/email and password.";return}sessionStorage.setItem("bft_demo_session",JSON.stringify({username:account.username,email:account.email}));updateAuthUI();authModal.classList.remove("open");alert("Welcome, "+account.username+"!")});
-$("logoutBtn").onclick=()=>{sessionStorage.removeItem("bft_demo_session");updateAuthUI()};updateAuthUI();
+// Authentication is handled by the Firebase module below.
 $("search").addEventListener("input",renderFruits);
 $("tradeForm").addEventListener("submit",e=>{e.preventDefault();let mine=getMine();mine.unshift({user:$("username").value.trim(),give:$("give").value,want:$("want").value,contact:$("contact").value.trim(),details:$("details").value.trim()});localStorage.setItem("bft_listings",JSON.stringify(mine));renderListings();e.target.reset();alert("Listing saved on this device. It is not public to other users yet.")});
 $("clearMine").onclick=()=>{if(confirm("Delete the listings saved on this device?")){localStorage.removeItem("bft_listings");renderListings()}};
 renderFilters();renderFruits();fillSelects();renderStock();renderGamepasses();updateStockTimers();setInterval(updateStockTimers,1000);renderListings();
 </script>
+
+<script type="module">
+// SETUP REQUIRED: replace the placeholder values below with your Firebase Web App config.
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs, runTransaction } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
+  appId: "PASTE_YOUR_FIREBASE_APP_ID"
+};
+const $id = id => document.getElementById(id);
+let auth=null, db=null, firebaseReady=false;
+const modal=$id('authModal');
+function status(msg){$id('authStatus').textContent=msg}
+function mode(m){$id('authTitle').textContent=m==='login'?'Welcome back':'Create your account';$id('loginForm').style.display=m==='login'?'grid':'none';$id('registerForm').style.display=m==='register'?'grid':'none';$id('loginTab').className=m==='login'?'btn':'btn secondary';$id('registerTab').className=m==='register'?'btn':'btn secondary';status('')}
+function openModal(m='login'){modal.classList.add('open');mode(m)}
+function niceError(e){const c=e?.code||'';return ({'auth/email-already-in-use':'This email is already registered. Try logging in.','auth/invalid-credential':'Email or password is incorrect.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Please enter a valid email.','auth/popup-closed-by-user':'Google sign-in was cancelled.','auth/unauthorized-domain':'Add this website domain in Firebase Authentication → Settings → Authorized domains.'})[c]||e.message||'Something went wrong. Check Firebase setup.'}
+function makeId(){return String(Math.floor(10000000+Math.random()*90000000))}
+async function ensureProfile(user, requestedUsername=''){
+ const ref=doc(db,'users',user.uid); const existing=await getDoc(ref);
+ if(existing.exists()) return existing.data();
+ const username=(requestedUsername||user.displayName||user.email?.split('@')[0]||'Player').trim().slice(0,24);
+ // A transaction checks uniqueness of the public 8-digit ID before saving it.
+ let profile;
+ await runTransaction(db,async tx=>{
+   const fresh=await tx.get(ref); if(fresh.exists()){profile=fresh.data();return;}
+   let publicId=makeId(); let idRef=doc(db,'publicIds',publicId); let idSnap=await tx.get(idRef);
+   for(let i=0;idSnap.exists()&&i<8;i++){publicId=makeId();idRef=doc(db,'publicIds',publicId);idSnap=await tx.get(idRef)}
+   if(idSnap.exists()) throw new Error('Could not create unique player ID. Please try again.');
+   profile={uid:user.uid,username,email:user.email||'',publicId,createdAt:new Date().toISOString()};
+   tx.set(ref,profile); tx.set(idRef,{uid:user.uid,username,publicId});
+ });
+ return profile;
+}
+async function refreshProfile(user){
+ if(!user)return;
+ try{const profile=await ensureProfile(user);$id('userBadge').textContent='👤 '+profile.username;$id('openAuth').textContent='Account';$id('logoutBtn').style.display='inline-block';$id('myPublicId').textContent='Your player ID: '+profile.publicId;if($id('username'))$id('username').value=profile.username;}
+ catch(e){status('Profile setup issue: '+niceError(e))}
+}
+$id('openAuth').addEventListener('click',()=>{if(auth?.currentUser){refreshProfile(auth.currentUser);alert('You are logged in. Your player ID is shown in Community.');}else openModal('login')});
+$id('closeAuth').addEventListener('click',()=>modal.classList.remove('open'));modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});$id('loginTab').addEventListener('click',()=>mode('login'));$id('registerTab').addEventListener('click',()=>mode('register'));
+$id('registerForm').addEventListener('submit',async e=>{e.preventDefault();if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}const username=$id('regUsername').value.trim(),email=$id('regEmail').value.trim(),password=$id('regPassword').value;if(username.length<3){status('Username must be at least 3 characters.');return}try{const cred=await createUserWithEmailAndPassword(auth,email,password);await updateProfile(cred.user,{displayName:username});await ensureProfile(cred.user,username);modal.classList.remove('open');status('');}catch(err){status(niceError(err))}});
+$id('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}try{await signInWithEmailAndPassword(auth,$id('loginIdentity').value.trim(),$id('loginPassword').value);modal.classList.remove('open');}catch(err){status(niceError(err))}});
+$id('googleLogin').addEventListener('click',async()=>{if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}try{const result=await signInWithPopup(auth,new GoogleAuthProvider());await ensureProfile(result.user);modal.classList.remove('open')}catch(err){status(niceError(err))}});
+$id('forgotPassword').addEventListener('click',async()=>{if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}const email=$id('loginIdentity').value.trim();if(!email){status('Enter your email above first.');return}try{await sendPasswordResetEmail(auth,email);status('Password reset email sent. Check your inbox.')}catch(err){status(niceError(err))}});
+$id('logoutBtn').addEventListener('click',async()=>{if(auth)await signOut(auth)});
+$id('searchUserId').addEventListener('click',async()=>{const id=$id('userIdSearch').value.trim(),out=$id('userSearchResult');if(!/^\d{8}$/.test(id)){out.textContent='Enter a valid 8-digit player ID.';return}if(!firebaseReady){out.textContent='Firebase is not configured yet; ID search will work after setup.';return}try{const snap=await getDoc(doc(db,'publicIds',id));if(!snap.exists()){out.textContent='No player found with that ID.';return}const d=snap.data();out.textContent='Player found: '+d.username+' • ID: '+d.publicId;}catch(e){out.textContent='Search failed: '+niceError(e)}});
+try{if(firebaseConfig.apiKey.startsWith('PASTE_')||firebaseConfig.projectId.startsWith('PASTE_')){status('Setup needed: add Firebase config in the code to enable real accounts.')}else{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);firebaseReady=true;onAuthStateChanged(auth,async user=>{if(user){await refreshProfile(user)}else{$id('userBadge').textContent='Guest';$id('openAuth').textContent='Login / Register';$id('logoutBtn').style.display='none';$id('myPublicId').textContent=''}})}}catch(e){status('Firebase setup error: '+niceError(e))}
+</script>
+
 </body></html>
