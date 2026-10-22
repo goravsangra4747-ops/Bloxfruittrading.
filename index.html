@@ -214,5 +214,160 @@ $id('logoutBtn').addEventListener('click',async()=>{if(auth)await signOut(auth)}
 $id('searchUserId').addEventListener('click',async()=>{const id=$id('userIdSearch').value.trim(),out=$id('userSearchResult');if(!/^\d{8}$/.test(id)){out.textContent='Enter a valid 8-digit player ID.';return}if(!firebaseReady){out.textContent='Firebase is not configured yet; ID search will work after setup.';return}try{const snap=await getDoc(doc(db,'publicIds',id));if(!snap.exists()){out.textContent='No player found with that ID.';return}const d=snap.data();out.textContent='Player found: '+d.username+' • ID: '+d.publicId;}catch(e){out.textContent='Search failed: '+niceError(e)}});
 try{if(firebaseConfig.apiKey.startsWith('PASTE_')||firebaseConfig.projectId.startsWith('PASTE_')){status('Setup needed: add Firebase config in the code to enable real accounts.')}else{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);firebaseReady=true;onAuthStateChanged(auth,async user=>{if(user){await refreshProfile(user)}else{$id('userBadge').textContent='Guest';$id('openAuth').textContent='Login / Register';$id('logoutBtn').style.display='none';$id('myPublicId').textContent=''}})}}catch(e){status('Firebase setup error: '+niceError(e))}
 </script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  runTransaction,
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC5Z_ZK-Ov7DLNI6zMXdV3skBM5KnuZmpQ",
+  authDomain: "gxrv-blox-fruit-trading-83c73.firebaseapp.com",
+  projectId: "gxrv-blox-fruit-trading-83c73",
+  storageBucket: "gxrv-blox-fruit-trading-83c73.firebasestorage.app",
+  messagingSenderId: "668068089107",
+  appId: "1:668068089107:web:25fe37553a19ddde721ee6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+
+// Generate an 8-digit community ID and reserve it transactionally.
+async function createCommunityProfile(user) {
+  const profileRef = doc(db, "users", user.uid);
+  const existing = await getDoc(profileRef);
+
+  if (existing.exists()) return existing.data();
+
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const communityId = String(
+      Math.floor(10000000 + Math.random() * 90000000)
+    );
+
+    const idRef = doc(db, "communityIds", communityId);
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const profile = await transaction.get(profileRef);
+        const reservedId = await transaction.get(idRef);
+
+        if (profile.exists()) return;
+        if (reservedId.exists()) throw new Error("ID_TAKEN");
+
+        transaction.set(idRef, { uid: user.uid });
+        transaction.set(profileRef, {
+          uid: user.uid,
+          communityId,
+          displayName: user.displayName || "GXRV Trader",
+          photoURL: user.photoURL || "",
+          createdAt: new Date().toISOString()
+        });
+      });
+
+      return (await getDoc(profileRef)).data();
+    } catch (error) {
+      if (error.message !== "ID_TAKEN") throw error;
+    }
+  }
+
+  throw new Error("Could not generate an ID. Please try again.");
+}
+
+// Register with email and password.
+// Call: await gxrvRegister(name, email, password)
+window.gxrvRegister = async function (name, email, password) {
+  const credential = await createUserWithEmailAndPassword(
+    auth, email.trim(), password
+  );
+
+  try {
+    const profile = await createCommunityProfile(credential.user);
+    return { user: credential.user, profile };
+  } catch (error) {
+    // Keep the account so the user can retry profile creation after login.
+    throw error;
+  }
+};
+
+// Login with email and password.
+// Call: await gxrvLogin(email, password)
+window.gxrvLogin = function (email, password) {
+  return signInWithEmailAndPassword(auth, email.trim(), password);
+};
+
+// Login or register using Google.
+// Call: await gxrvGoogleLogin()
+window.gxrvGoogleLogin = async function () {
+  const result = await signInWithPopup(auth, googleProvider);
+  const profile = await createCommunityProfile(result.user);
+  return { user: result.user, profile };
+};
+
+// Send password-reset email.
+// Call: await gxrvForgotPassword(email)
+window.gxrvForgotPassword = function (email) {
+  return sendPasswordResetEmail(auth, email.trim());
+};
+
+// Find a public profile by its 8-digit community ID.
+// Call: await gxrvFindProfile("12345678")
+window.gxrvFindProfile = async function (communityId) {
+  const id = String(communityId).trim();
+
+  if (!/^\d{8}$/.test(id)) {
+    throw new Error("Enter a valid 8-digit GXRV ID.");
+  }
+
+  const idSnap = await getDoc(doc(db, "communityIds", id));
+  if (!idSnap.exists()) return null;
+
+  const profileSnap = await getDoc(doc(db, "users", idSnap.data().uid));
+  if (!profileSnap.exists()) return null;
+
+  const data = profileSnap.data();
+
+  // Do not return private account information.
+  return {
+    communityId: data.communityId,
+    displayName: data.displayName,
+    photoURL: data.photoURL || ""
+  };
+};
+
+// Observe login state.
+// Call: gxrvWatchUser(user => { ... })
+window.gxrvWatchUser = function (callback) {
+  return onAuthStateChanged(auth, callback);
+};
+
+// Logout.
+// Call: await gxrvLogout()
+window.gxrvLogout = function () {
+  return signOut(auth);
+};
+
+console.log("GXRV Firebase initialized.");
+</script>
 </body></html>
