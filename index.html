@@ -1,218 +1,286 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Blox Fruits Trading</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GXRV | Blox Fruits Trading</title>
 <style>
-:root{--bg:#050608;--panel:#0a0d11;--red:#ff1838;--red2:#a5001d;--line:#5c1020;--text:#f4f6fb;--muted:#aab5c5;--green:#31d17c}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1b0710 0,#050608 45%);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-a{color:inherit;text-decoration:none}.top{position:sticky;top:0;z-index:5;background:#060608ed;border-bottom:1px solid #36101a;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 4.5%}.brand{font-weight:1000;font-size:19px;letter-spacing:.5px;color:#fff}.brand span{color:var(--red)}nav{display:flex;gap:22px;flex-wrap:wrap;color:#d8e0ec}nav a:hover{color:var(--red)}.pill{border:1px solid var(--red);border-radius:12px;padding:10px 14px;background:#14070b;color:white}
-.wrap{max-width:1500px;margin:auto;padding:22px 24px 40px}.hero{display:grid;grid-template-columns:1.7fr 1fr;gap:16px;margin-bottom:18px}.hero-main,.panel{background:linear-gradient(135deg,#13070c,#07090d 60%);border:1px solid var(--line);border-radius:15px;overflow:hidden}.hero-main{padding:28px;min-height:205px;position:relative}.hero-main:after{content:"🔥";position:absolute;right:30px;top:10px;font-size:100px;opacity:.16;transform:rotate(-15deg)}.eyebrow{color:var(--red);font-weight:900;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(32px,4.2vw,60px);line-height:.98;margin:12px 0}.hero h1 span{color:var(--red)}.hero p{color:#c1cad7;max-width:620px}.hero-side{padding:22px}.hero-side h3,.panel h2{margin:0 0 6px}.sub{color:var(--muted);font-size:13px}.stock-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #20232a}.stock-row:last-child{border:0}.fruit-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#160a10;border:1px solid #43101e;font-size:23px;flex-shrink:0}.stock-row .name{font-weight:700;flex:1}.stock-num{font-size:12px;color:#c6d0df}.dot{display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;margin-right:5px}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px}.panel{padding:18px;margin-bottom:18px}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.filter{border:1px solid #252a33;background:#0a0d12;color:#dce4ee;border-radius:10px;padding:9px 13px;cursor:pointer}.filter.active,.filter:hover{background:var(--red);border-color:var(--red);color:white}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.fruit-card{border:1px solid #45101d;background:linear-gradient(150deg,#11090d,#07090d);border-radius:12px;padding:12px;min-width:0;transition:.15s}.fruit-card:hover{border-color:var(--red);transform:translateY(-2px)}.fruit-art{height:95px;display:grid;place-items:center;background:radial-gradient(circle,#35101c,#09090d 70%);border-radius:9px;margin-bottom:10px;font-size:53px}.fruit-card h3{margin:0;font-size:16px}.badge{font-size:10px;display:inline-block;border-radius:20px;background:#741126;color:#fff;padding:3px 7px;margin-bottom:7px}.meta{font-size:12px;color:#b9c5d4;margin-top:3px}.meta b{color:#fff}.demand{color:#ff8295}.trade-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:#c4cdd8;font-size:12px;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;background:#05070a;color:#fff;border:1px solid #303540;border-radius:9px;padding:11px;font:inherit}.field textarea{min-height:78px;resize:vertical}.wide{grid-column:1/-1}.btn{background:var(--red);border:0;color:#fff;font-weight:800;border-radius:10px;padding:12px 16px;cursor:pointer}.btn.secondary{background:#171b22;border:1px solid #363c47}.listing{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:center;border:1px solid #2d1720;border-radius:11px;padding:12px;margin-top:10px;background:#080a0e}.listing-side{display:flex;align-items:center;gap:8px;min-width:0}.listing-side strong{display:block}.listing-side small{color:var(--muted)}.listing-side .fruit-icon{font-size:22px}.safety li{margin:10px 0;color:#d1dae6}.notice{font-size:12px;color:#d3c2a7;background:#17120a;border:1px solid #4b3514;padding:10px;border-radius:10px;margin-top:12px}.empty{color:var(--muted);padding:16px;text-align:center}.footer{border-top:1px solid #31101a;padding:22px 4%;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--muted)}.footer b{color:#fff}.stock-tag{font-size:11px;color:#c7d0dc;border:1px solid #343943;border-radius:7px;padding:4px 6px}.auth-btn{border:1px solid #ff1838;border-radius:10px;background:#17070c;color:#fff;padding:10px 13px;font-weight:800;cursor:pointer}.auth-modal{display:none;position:fixed;inset:0;z-index:20;background:#000c;align-items:center;justify-content:center;padding:16px}.auth-modal.open{display:flex}.auth-box{width:min(440px,100%);background:#090b10;border:1px solid #7b1429;border-radius:16px;padding:22px;box-shadow:0 20px 70px #000}.auth-tabs{display:flex;gap:8px;margin:14px 0}.auth-tabs button{flex:1}.auth-form{display:grid;gap:12px}.auth-form label{display:block;font-size:12px;color:#c4cdd8;margin-bottom:5px}.auth-form input{width:100%;background:#05070a;color:#fff;border:1px solid #303540;border-radius:9px;padding:11px;font:inherit}.auth-note{font-size:12px;color:#d3c2a7;background:#17120a;border:1px solid #4b3514;padding:10px;border-radius:10px;margin-top:12px}.auth-status{font-size:13px;color:#ff8295;min-height:18px}.auth-head{display:flex;justify-content:space-between;align-items:center}.auth-close{background:transparent;color:#fff;border:0;font-size:24px;cursor:pointer}
-@media(max-width:1050px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:1fr 320px}}@media(max-width:760px){.top{align-items:flex-start;flex-direction:column;padding:14px 18px}nav{gap:14px;font-size:13px}.wrap{padding:14px}.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.trade-form{grid-template-columns:1fr}.wide{grid-column:auto}.listing{grid-template-columns:1fr}.panel-head{flex-direction:column}.hero-main{padding:22px}.hero-main:after{font-size:75px;right:10px}}@media(max-width:390px){.grid{grid-template-columns:1fr 1fr}.fruit-art{height:75px}}
+:root{color-scheme:dark;--red:#ff3030;--bg:#090909;--panel:#151515;--muted:#aaa;--line:#292929}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{padding:22px 16px;text-align:center;background:#111;border-bottom:2px solid var(--red)}
+h1{margin:0;color:var(--red);letter-spacing:2px}
+header p{color:#bbb;margin-bottom:0}
+nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:14px}
+button,.btn{background:var(--red);color:#fff;border:0;border-radius:8px;padding:11px 15px;font-weight:bold;cursor:pointer}
+button.secondary{background:#292929}
+button:hover,.btn:hover{filter:brightness(1.15)}
+main{max-width:1050px;margin:auto;padding:16px}
+section,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:18px}
+h2{margin-top:0;color:var(--red)}
+input,select,textarea{width:100%;padding:12px;border:1px solid #444;background:#0e0e0e;color:#fff;border-radius:7px;margin:6px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.fruit,.listing{border:1px solid #333;border-radius:10px;padding:14px;background:#101010}
+.fruit strong{display:block;color:#ff6262;margin-bottom:7px}
+.muted,small{color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.hidden{display:none!important}
+#authModal{position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
+#authModal .panel{width:min(440px,100%);max-height:90vh;overflow:auto}
+.status{min-height:22px;color:#ff7777;overflow-wrap:anywhere}
+footer{text-align:center;padding:24px;color:#888}
+a{color:#ff7777}
 </style>
 </head>
 <body>
-<header class="top">
-  <a class="brand" href="#"><span>☠ BLOX</span> FRUITS <small>TRADING</small></a>
-  <nav><a href="#home">Home</a><a href="#trade">Trade</a><a href="#values">Values</a><a href="#gamepasses">Gamepasses</a><a href="#stock">Stock</a><a href="#community">Community</a><a href="#rules">Rules</a></nav>
-  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="userBadge" class="stock-tag">Guest</span><button class="auth-btn" id="openAuth" type="button">Login / Register</button><button class="auth-btn" id="logoutBtn" type="button" style="display:none">Logout</button><a class="pill" href="#trade">＋ Post Trade</a></div>
-</header>
-<div class="auth-modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-  <div class="auth-box">
-    <div class="auth-head"><div><div class="eyebrow">GXRV COMMUNITY</div><h2 id="authTitle" style="margin:5px 0 0">Welcome back</h2></div><button class="auth-close" id="closeAuth" aria-label="Close" type="button">×</button></div>
-    <div class="auth-tabs"><button class="btn" id="loginTab" type="button">Login</button><button class="btn secondary" id="registerTab" type="button">Register</button></div>
-    <button class="btn secondary" id="googleLogin" type="button">Continue with Google</button>
-    <form class="auth-form" id="loginForm"><div><label for="loginIdentity">Gmail / Email</label><input id="loginIdentity" type="email" autocomplete="email" placeholder="name@gmail.com" required></div><div><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="6" required></div><button class="btn" type="submit">Login</button><button class="btn secondary" id="forgotPassword" type="button">Forgot password?</button></form>
-    <form class="auth-form" id="registerForm" style="display:none"><div><label for="regUsername">Username</label><input id="regUsername" maxlength="24" autocomplete="username" placeholder="Choose a username" required></div><div><label for="regEmail">Gmail / Email</label><input id="regEmail" type="email" autocomplete="email" placeholder="name@gmail.com" required></div><div><label for="regPassword">Password (6+ characters)</label><input id="regPassword" type="password" autocomplete="new-password" minlength="6" required></div><button class="btn" type="submit">Create Account</button></form>
-    <div class="auth-status" id="authStatus" aria-live="polite"></div>
-    <div class="auth-note">Real shared login needs your Firebase project configuration added to this file. Never use your Roblox password here.</div>
+<header>
+  <h1>GXRV DYNASTY</h1>
+  <p>Blox Fruits Trading • Trade Smart • Build on Trust</p>
+  <div class="row" style="max-width:500px;margin:16px auto 0">
+    <button id="openAuth">Login / Register</button>
+    <button id="logoutBtn" class="secondary hidden">Logout</button>
   </div>
-</div>
-<main class="wrap" id="home">
-  <section class="hero">
-    <div class="hero-main"><div class="eyebrow">Trade • Compare • Connect</div><h1>BLOX FRUITS<br><span>TRADING</span></h1><p>Check fruit values, browse trade offers, and compare what players give and want. Built for safer community trading.</p><a class="pill" href="#values">Explore Fruit Values →</a></div>
-    <aside class="panel hero-side" id="stock"><div class="panel-head"><div><h3>📦 Normal & Mirage Stock</h3><div class="sub">Auto reset countdown + live tracker links.</div></div><span class="stock-tag">Tracker linked</span></div>
-<div class="stock-row"><span class="fruit-icon">🏪</span><div class="name">Normal Dealer</div><span class="stock-num" id="normalTimer">--:--:--</span></div>
-<div class="stock-row"><span class="fruit-icon">🌌</span><div class="name">Mirage Dealer</div><span class="stock-num" id="mirageTimer">--:--:--</span></div>
-<div class="notice">Blox Fruits has no official public stock API. Timers show expected reset times, not the fruit list. Check the linked tracker or confirm in-game; Mirage stock can vary by server.</div>
-<p><a class="pill" target="_blank" rel="noopener" href="https://bloxfruitswiki.org/wiki/stock/">Check Normal + Mirage Stock ↗</a></p>
-<p><a class="pill" target="_blank" rel="noopener" href="https://bloxfruit.io/blox-fruits-stock-today/">Alternative Stock Tracker ↗</a></p></aside>
+  <p id="userBadge">Guest</p>
+</header>
+<nav>
+  <a href="#fruits">Fruit Values</a>
+  <a href="#listings">Trade Listings</a>
+  <a href="#post">Post a Trade</a>
+  <a href="#community">Community ID</a>
+</nav>
+<main>
+  <section id="fruits">
+    <h2>Fruit Values</h2>
+    <input id="fruitSearch" placeholder="Search fruits..." aria-label="Search fruits">
+    <div id="fruitGrid" class="grid"></div>
+    <p class="muted">Values are community reference values and may change. Confirm trades before accepting.</p>
   </section>
-  <section class="layout">
-    <div>
-      <section class="panel" id="values">
-        <div class="panel-head"><div><h2>🔥 All Fruits & Values</h2><div class="sub">Illustrated fruit cards with names, rarity, and editable estimated values.</div></div><span class="stock-tag">Community estimates</span></div>
-        <div class="field"><input id="search" placeholder="Search fruit name..." aria-label="Search fruit"></div>
-        <div class="filters" id="filters"></div>
-        <div class="grid" id="fruitGrid"></div>
-        <div class="notice">Fruit card values are starter estimates and may be outdated. Check <a href="https://bloxfruit.io/values/" target="_blank" rel="noopener" style="color:#ff7188;text-decoration:underline">current community values ↗</a>. No community tracker guarantees an official value.</div>
-      </section>
-      <section class="panel" id="gamepasses">
-        <div class="panel-head"><div><h2>🎟️ Gamepasses & Permanent Values</h2><div class="sub">Market estimates change; check the latest tracker before trading.</div></div><span class="stock-tag">Estimate only</span></div>
-        <div class="grid" id="gamepassGrid"></div>
-        <div class="notice">Gamepass and permanent-fruit values are not official fixed numbers. Values vary by demand and community tracker.</div>
-        <p><a class="pill" target="_blank" rel="noopener" href="https://bloxfruit.io/values/">Check latest fruit, permanent & gamepass values ↗</a></p>
-      </section>
-      <section class="panel" id="trade">
-        <div class="panel-head"><div><h2>🤝 Create a Trade Listing</h2><div class="sub">Fruit pictures and names are shown on each side.</div></div></div>
-        <form id="tradeForm" class="trade-form">
-          <div class="field"><label>Your display name</label><input id="username" maxlength="30" placeholder="e.g. GXRV" required></div>
-          <div class="field"><label>What you give</label><select id="give" required></select></div>
-          <div class="field"><label>What you want</label><select id="want" required></select></div>
-          <div class="field"><label>Contact / server handle (optional)</label><input id="contact" maxlength="60" placeholder="Discord handle or community name"></div>
-          <div class="field wide"><label>Extra details (optional)</label><textarea id="details" maxlength="220" placeholder="Add trade notes. Never share passwords or account credentials."></textarea></div>
-          <div class="wide"><button class="btn" type="submit">＋ Publish Listing on This Device</button></div>
-        </form>
-        <div class="notice">Listings currently save only in this browser/device. To make listings shared between users, the site needs a backend/database and moderation.</div>
-      </section>
-      <section class="panel"><div class="panel-head"><div><h2>🧾 Trade Listings</h2><div class="sub">Sample offers plus listings saved on this device.</div></div><button class="btn secondary" id="clearMine" type="button">Clear my listings</button></div><div id="listings"></div></section>
+
+  <section id="listings">
+    <h2>Trade Listings</h2>
+    <p class="muted">Listings created here are saved in this browser only; they are not shared between devices.</p>
+    <div id="listingGrid" class="grid"></div>
+  </section>
+
+  <section id="post">
+    <h2>Post a Trade</h2>
+    <form id="listingForm">
+      <label>Your offer</label><input id="offer" required maxlength="120" placeholder="e.g. Buddha">
+      <label>What you want</label><input id="wanted" required maxlength="120" placeholder="e.g. Portal + adds">
+      <label>Contact / Roblox username (optional)</label><input id="contact" maxlength="80" placeholder="Username">
+      <button type="submit">Post Listing</button>
+    </form>
+    <p id="listingStatus" class="status" aria-live="polite"></p>
+  </section>
+
+  <section id="community">
+    <h2>Community ID</h2>
+    <p>Your Community ID appears after login if your profile can be created.</p>
+    <p><strong>My ID:</strong> <span id="myPublicId">—</span></p>
+    <div class="row">
+      <input id="userIdSearch" inputmode="numeric" maxlength="8" placeholder="Enter 8-digit Community ID">
+      <button id="searchUserId">Find User</button>
     </div>
-    <aside>
-      <section class="panel"><h2>🛡 Trading Guide</h2><div class="sub">A few simple ways to trade safer.</div><ol class="safety"><li>Check both fruits' values before agreeing.</li><li>Confirm current stock in the game.</li><li>Use official in-game trade windows.</li><li>Never share Roblox passwords or verification codes.</li><li>Report suspicious offers to community moderators.</li></ol></section>
-      <section class="panel" id="community"><h2>👥 Community</h2><p class="sub">Trade respectfully. Keep offers clear and don't pressure anyone.</p><div style="margin:14px 0;padding:14px;border:1px solid #45101d;border-radius:12px"><h3 style="margin-top:0">🔎 Find a player by ID</h3><p class="sub">Every registered user gets a unique 8-digit community ID.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="userIdSearch" inputmode="numeric" maxlength="8" placeholder="Enter 8-digit player ID" style="flex:1;min-width:150px;background:#05070a;color:white;border:1px solid #303540;border-radius:9px;padding:11px"><button class="btn" id="searchUserId" type="button">Search ID</button></div><div id="userSearchResult" class="sub" style="margin-top:10px" aria-live="polite"></div><div id="myPublicId" style="margin-top:8px;font-weight:800;color:#ff7188"></div></div><div class="stock-row"><span class="fruit-icon">⚡</span><div class="name">Fast listings</div><span class="stock-num">Browse offers</span></div><div class="stock-row"><span class="fruit-icon">🛡️</span><div class="name">Safer trading</div><span class="stock-num">Stay alert</span></div><div class="stock-row"><span class="fruit-icon">🔥</span><div class="name">Fruit values</div><span class="stock-num">Compare first</span></div></section>
-      <section class="panel" id="rules"><h2>📜 Rules</h2><ol class="safety"><li>No scams, threats, or abusive messages.</li><li>No fake trusted badges or false claims.</li><li>No account selling or password sharing.</li><li>Fruit values are estimates, not guarantees.</li></ol></section>
-      <section class="panel"><h2>🔴 Trade Safe. Trade Smart.</h2><p class="sub">Use trusted community moderators where available. This is an unofficial fan-made trading helper and is not affiliated with the Blox Fruits developers.</p></section>
-    </aside>
+    <p id="userSearchResult" class="status" aria-live="polite"></p>
   </section>
 </main>
-<footer class="footer"><div><b>☠ BLOX FRUITS TRADING</b><br>Unofficial fan-made community tool</div><div>Values and stock must be verified in-game.</div></footer>
+
+<div id="authModal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="panel">
+    <div class="row">
+      <h2 id="authTitle">GXRV Account</h2>
+      <button id="closeAuth" class="secondary" type="button" style="flex:0 0 auto">Close</button>
+    </div>
+    <div class="row">
+      <button id="loginTab" type="button" class="secondary">Login</button>
+      <button id="registerTab" type="button" class="secondary">Register</button>
+    </div>
+    <form id="loginForm">
+      <label>Email</label><input type="email" autocomplete="email" required placeholder="you@example.com">
+      <label>Password</label><input type="password" autocomplete="current-password" required minlength="6" placeholder="Password">
+      <button type="submit">Login</button>
+      <button id="forgotPassword" type="button" class="secondary">Forgot password?</button>
+    </form>
+    <form id="registerForm" class="hidden">
+      <label>Username</label><input type="text" autocomplete="username" required maxlength="30" placeholder="Your username">
+      <label>Email</label><input type="email" autocomplete="email" required placeholder="you@example.com">
+      <label>Password (at least 6 characters)</label><input type="password" autocomplete="new-password" required minlength="6" placeholder="Create password">
+      <button type="submit">Create Account</button>
+    </form>
+    <button id="googleLogin" type="button" class="secondary" style="width:100%;margin-top:10px">Continue with Google</button>
+    <p id="authStatus" class="status" aria-live="polite"></p>
+    <small>Never share your password or verification codes with anyone.</small>
+  </div>
+</div>
+
+<footer>GXRV DYNASTY • Trade Smart • Beware of scams</footer>
+
 <script>
-const fruits=[
-{name:"Rocket",rarity:"Common",icon:"🚀",value:"5K",demand:"Low"},
-{name:"Spin",rarity:"Common",icon:"🌀",value:"7.5K",demand:"Low"},
-{name:"Blade",rarity:"Common",icon:"🗡️",value:"30K",demand:"Low"},
-{name:"Spring",rarity:"Common",icon:"🪀",value:"60K",demand:"Low"},
-{name:"Bomb",rarity:"Common",icon:"💣",value:"80K",demand:"Low"},
-{name:"Smoke",rarity:"Common",icon:"💨",value:"100K",demand:"Low"},
-{name:"Spike",rarity:"Common",icon:"🌵",value:"180K",demand:"Low"},
-{name:"Flame",rarity:"Uncommon",icon:"🔥",value:"250K",demand:"Low"},
-{name:"Falcon",rarity:"Uncommon",icon:"🦅",value:"300K",demand:"Low"},
-{name:"Ice",rarity:"Uncommon",icon:"🧊",value:"550K",demand:"Medium"},
-{name:"Sand",rarity:"Uncommon",icon:"🏜️",value:"420K",demand:"Low"},
-{name:"Dark",rarity:"Uncommon",icon:"🌑",value:"400K",demand:"Medium"},
-{name:"Diamond",rarity:"Uncommon",icon:"💎",value:"600K",demand:"Low"},
-{name:"Light",rarity:"Rare",icon:"✨",value:"800K",demand:"Medium"},
-{name:"Rubber",rarity:"Rare",icon:"🟣",value:"700K",demand:"Low"},
-{name:"Barrier",rarity:"Rare",icon:"🛡️",value:"800K",demand:"Low"},
-{name:"Ghost",rarity:"Rare",icon:"👻",value:"800K",demand:"Low"},
-{name:"Magma",rarity:"Rare",icon:"🌋",value:"1.1M",demand:"High"},
-{name:"Quake",rarity:"Legendary",icon:"🌊",value:"1M",demand:"Medium"},
-{name:"Buddha",rarity:"Legendary",icon:"🟡",value:"1.2M",demand:"High"},
-{name:"Love",rarity:"Legendary",icon:"💗",value:"1.3M",demand:"Medium"},
-{name:"Spider",rarity:"Legendary",icon:"🕸️",value:"1.5M",demand:"Low"},
-{name:"Sound",rarity:"Legendary",icon:"🎵",value:"2.5M",demand:"Medium"},
-{name:"Phoenix",rarity:"Legendary",icon:"🔥",value:"2.25M",demand:"Medium"},
-{name:"Portal",rarity:"Legendary",icon:"🌀",value:"8M",demand:"High"},
-{name:"Rumble",rarity:"Legendary",icon:"⚡",value:"7M",demand:"High"},
-{name:"Pain",rarity:"Legendary",icon:"💢",value:"2M",demand:"Low"},
-{name:"Blizzard",rarity:"Legendary",icon:"❄️",value:"5M",demand:"Medium"},
-{name:"Gravity",rarity:"Mythical",icon:"🪐",value:"2M",demand:"Low"},
-{name:"Mammoth",rarity:"Mythical",icon:"🦣",value:"10M",demand:"Medium"},
-{name:"T-Rex",rarity:"Mythical",icon:"🦖",value:"20M",demand:"High"},
-{name:"Dough",rarity:"Mythical",icon:"🍩",value:"25M",demand:"High"},
-{name:"Shadow",rarity:"Mythical",icon:"👾",value:"6M",demand:"Medium"},
-{name:"Venom",rarity:"Mythical",icon:"🐍",value:"9M",demand:"High"},
-{name:"Control",rarity:"Mythical",icon:"🌀",value:"8M",demand:"Medium"},
-{name:"Spirit",rarity:"Mythical",icon:"👻",value:"10M",demand:"Medium"},
-{name:"Leopard",rarity:"Mythical",icon:"🐆",value:"40M",demand:"High"},
-{name:"Yeti",rarity:"Mythical",icon:"☃️",value:"45M",demand:"High"},
-{name:"Kitsune",rarity:"Mythical",icon:"🦊",value:"100M",demand:"High"},
-{name:"Dragon",rarity:"Mythical",icon:"🐉",value:"Check tracker",demand:"High"},
-{name:"Gas",rarity:"Mythical",icon:"☁️",value:"Check tracker",demand:"High"},
-{name:"Tiger",rarity:"Mythical",icon:"🐅",value:"Check tracker",demand:"High"},
-{name:"West Dragon",rarity:"Mythical",icon:"🐉",value:"Check tracker",demand:"High"},
-{name:"East Dragon",rarity:"Mythical",icon:"🐲",value:"Check tracker",demand:"High"},
-{name:"Creation",rarity:"Mythical",icon:"🪄",value:"Check tracker",demand:"Varies"},
-{name:"Lightning",rarity:"Mythical",icon:"⚡",value:"Check tracker",demand:"Varies"},
-{name:"Eagle",rarity:"Uncommon",icon:"🦅",value:"Check tracker",demand:"Low"}
+const fruits = [
+  ["Rocket","Common"],["Spin","Common"],["Blade","Common"],["Spring","Common"],
+  ["Bomb","Common"],["Smoke","Common"],["Spike","Common"],["Flame","Uncommon"],
+  ["Falcon","Uncommon"],["Ice","Uncommon"],["Sand","Uncommon"],["Dark","Uncommon"],
+  ["Diamond","Uncommon"],["Light","Rare"],["Rubber","Rare"],["Barrier","Rare"],
+  ["Ghost","Rare"],["Magma","Rare"],["Quake","Legendary"],["Buddha","Legendary"],
+  ["Love","Legendary"],["Spider","Legendary"],["Sound","Legendary"],["Phoenix","Legendary"],
+  ["Portal","Legendary"],["Rumble","Legendary"],["Pain","Legendary"],["Blizzard","Legendary"],
+  ["Gravity","Mythical"],["Mammoth","Mythical"],["T-Rex","Mythical"],["Dough","Mythical"],
+  ["Shadow","Mythical"],["Venom","Mythical"],["Control","Mythical"],["Spirit","Mythical"],
+  ["Dragon","Mythical"],["Leopard","Mythical"],["Kitsune","Mythical"],["Yeti","Mythical"]
 ];
-const stockDemo=[["Dragon",2],["Kitsune",1],["Leopard",3],["Yeti",2],["Buddha",5],["Portal",3],["Rumble",6],["Magma",4]];
-const rarityOrder=["All","Permanent","Mythical","Legendary","Rare","Uncommon","Common"];
-let active="All";
-const $=id=>document.getElementById(id);
-function renderFilters(){ $("filters").innerHTML=rarityOrder.map(r=>`<button class="filter ${active===r?'active':''}" data-r="${r}">${r}</button>`).join("");document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{active=b.dataset.r;renderFilters();renderFruits()})}
-function renderFruits(){let q=$("search").value.toLowerCase();let arr=fruits.filter(f=>(active==="All"||active==="Permanent" ? (active==="All") : f.rarity===active)&&f.name.toLowerCase().includes(q));$("fruitGrid").innerHTML=arr.map(f=>`<article class="fruit-card"><span class="badge">${f.rarity}</span><div class="fruit-art" role="img" aria-label="${f.name} fruit">${f.icon}</div><h3>${f.name}</h3><div class="meta">Type: <b>${f.rarity}</b></div><div class="meta">Est. value: <b>${f.value}</b></div><div class="meta">Demand: <b class="demand">${f.demand}</b></div></article>`).join("")||'<div class="empty">No fruits found.</div>'}
-function fillSelects(){let opts=fruits.map(f=>`<option value="${f.name}">${f.icon} ${f.name} — ${f.value}</option>`).join("");$("give").innerHTML=opts;$("want").innerHTML=opts}
-function renderStock(){}
-function countdownTo(hours){const now=new Date();const utc=now.getTime()+now.getTimezoneOffset()*60000;const next=(Math.floor(utc/(hours*3600000))+1)*hours*3600000;let s=Math.max(0,Math.floor((next-utc)/1000));return `${String(Math.floor(s/3600)).padStart(2,"0")}:${String(Math.floor(s%3600/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`}
-function updateStockTimers(){$("normalTimer").textContent=countdownTo(4);$("mirageTimer").textContent=countdownTo(2)}
-const gamepasses=[
-{name:"2× Money",icon:"💰",kind:"Gamepass"},{name:"2× Mastery",icon:"⚔️",kind:"Gamepass"},
-{name:"2× Boss Drops",icon:"🎁",kind:"Gamepass"},{name:"Fruit Notifier",icon:"🔔",kind:"Gamepass"},
-{name:"Fast Boats",icon:"🚤",kind:"Gamepass"},{name:"Fruit Storage",icon:"📦",kind:"Gamepass"},
-{name:"Dark Blade",icon:"🗡️",kind:"Gamepass"},{name:"Permanent Buddha",icon:"🟡",kind:"Permanent Fruit"},
-{name:"Permanent Portal",icon:"🌀",kind:"Permanent Fruit"},{name:"Permanent Kitsune",icon:"🦊",kind:"Permanent Fruit"},
-{name:"Permanent Dragon",icon:"🐉",kind:"Permanent Fruit"},{name:"Permanent Rocket",icon:"🚀",kind:"Permanent Fruit"}];
-function renderGamepasses(){$("gamepassGrid").innerHTML=gamepasses.map(g=>`<article class="fruit-card"><span class="badge">${g.kind}</span><div class="fruit-art">${g.icon}</div><h3>${g.name}</h3><div class="meta">Value: <b>Check latest tracker</b></div></article>`).join("")}
-const sampleListings=[
-{user:"TradeRider",give:"Buddha",want:"Portal",contact:"Community server",details:"Open to fair offers."},
-{user:"FruitHunter",give:"Magma",want:"Light",contact:"Community server",details:"Can add small adds."}
-];
-function getMine(){try{return JSON.parse(localStorage.getItem("bft_listings")||"[]")}catch(e){return []}}
-function renderListings(){let all=[...getMine(),...sampleListings];$("listings").innerHTML=all.map((l,i)=>{let a=fruits.find(f=>f.name===l.give)||fruits[0],b=fruits.find(f=>f.name===l.want)||fruits[1];return `<div class="listing"><div class="listing-side"><span class="fruit-icon">${a.icon}</span><div><strong>${a.name}</strong><small>Gives • ${a.value}</small></div></div><div class="listing-side"><span class="fruit-icon">${b.icon}</span><div><strong>${b.name}</strong><small>Wants • ${b.value}</small><small>by ${escapeHtml(l.user)}</small></div></div><div><span class="stock-tag">${i<getMine().length?'Your listing':'Sample offer'}</span><div class="sub">${escapeHtml(l.details||l.contact||'')}</div></div></div>`}).join("")}
-function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-// Front-end demo authentication. Real multi-device auth needs a trusted backend.
-const authModal=$("authModal");let authMode="login";
-// Authentication is handled by the Firebase module below.
-$("search").addEventListener("input",renderFruits);
-$("tradeForm").addEventListener("submit",e=>{e.preventDefault();let mine=getMine();mine.unshift({user:$("username").value.trim(),give:$("give").value,want:$("want").value,contact:$("contact").value.trim(),details:$("details").value.trim()});localStorage.setItem("bft_listings",JSON.stringify(mine));renderListings();e.target.reset();alert("Listing saved on this device. It is not public to other users yet.")});
-$("clearMine").onclick=()=>{if(confirm("Delete the listings saved on this device?")){localStorage.removeItem("bft_listings");renderListings()}};
-renderFilters();renderFruits();fillSelects();renderStock();renderGamepasses();updateStockTimers();setInterval(updateStockTimers,1000);renderListings();
+const fruitGrid = document.getElementById("fruitGrid");
+function renderFruits(){
+  const q = document.getElementById("fruitSearch").value.toLowerCase();
+  fruitGrid.innerHTML = "";
+  fruits.filter(f => f[0].toLowerCase().includes(q) || f[1].toLowerCase().includes(q))
+    .forEach(f => {
+      const card = document.createElement("div");
+      card.className = "fruit";
+      const name = document.createElement("strong"); name.textContent = f[0];
+      const rarity = document.createElement("span"); rarity.textContent = f[1];
+      card.append(name, rarity);
+      fruitGrid.append(card);
+    });
+}
+document.getElementById("fruitSearch").addEventListener("input",renderFruits);
+renderFruits();
+
+const listingGrid = document.getElementById("listingGrid");
+function renderListings(){
+  let listings = [];
+  try { listings = JSON.parse(localStorage.getItem("gxrvListings") || "[]"); } catch {}
+  listingGrid.innerHTML = "";
+  if (!listings.length) {
+    const p = document.createElement("p"); p.className="muted"; p.textContent="No listings yet. Add the first trade!";
+    listingGrid.append(p); return;
+  }
+  listings.slice().reverse().forEach(item => {
+    const card=document.createElement("div"); card.className="listing";
+    const offer=document.createElement("p"); offer.textContent="Offering: "+item.offer;
+    const wanted=document.createElement("p"); wanted.textContent="Looking for: "+item.wanted;
+    const contact=document.createElement("small"); contact.textContent=item.contact ? "Contact: "+item.contact : "Contact not provided";
+    card.append(offer,wanted,contact); listingGrid.append(card);
+  });
+}
+document.getElementById("listingForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const item={offer:document.getElementById("offer").value.trim(),wanted:document.getElementById("wanted").value.trim(),contact:document.getElementById("contact").value.trim()};
+  if(!item.offer||!item.wanted)return;
+  let listings=[];try{listings=JSON.parse(localStorage.getItem("gxrvListings")||"[]")}catch{}
+  listings.push(item);
+  localStorage.setItem("gxrvListings",JSON.stringify(listings));
+  e.target.reset(); document.getElementById("listingStatus").textContent="Listing saved in this browser.";
+  renderListings();
+});
+renderListings();
+
+const modal=document.getElementById("authModal");
+document.getElementById("openAuth").addEventListener("click",()=>modal.classList.remove("hidden"));
+document.getElementById("closeAuth").addEventListener("click",()=>modal.classList.add("hidden"));
+document.getElementById("loginTab").addEventListener("click",()=>{
+  document.getElementById("loginForm").classList.remove("hidden");
+  document.getElementById("registerForm").classList.add("hidden");
+});
+document.getElementById("registerTab").addEventListener("click",()=>{
+  document.getElementById("registerForm").classList.remove("hidden");
+  document.getElementById("loginForm").classList.add("hidden");
+});
 </script>
 
 <script type="module">
-// SETUP REQUIRED: replace the placeholder values below with your Firebase Web App config.
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs, runTransaction } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_FIREBASE_APP_ID"
-};
-const $id = id => document.getElementById(id);
-let auth=null, db=null, firebaseReady=false;
-const modal=$id('authModal');
-function status(msg){$id('authStatus').textContent=msg}
-function mode(m){$id('authTitle').textContent=m==='login'?'Welcome back':'Create your account';$id('loginForm').style.display=m==='login'?'grid':'none';$id('registerForm').style.display=m==='register'?'grid':'none';$id('loginTab').className=m==='login'?'btn':'btn secondary';$id('registerTab').className=m==='register'?'btn':'btn secondary';status('')}
-function openModal(m='login'){modal.classList.add('open');mode(m)}
-function niceError(e){const c=e?.code||'';return ({'auth/email-already-in-use':'This email is already registered. Try logging in.','auth/invalid-credential':'Email or password is incorrect.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Please enter a valid email.','auth/popup-closed-by-user':'Google sign-in was cancelled.','auth/unauthorized-domain':'Add this website domain in Firebase Authentication → Settings → Authorized domains.'})[c]||e.message||'Something went wrong. Check Firebase setup.'}
-function makeId(){return String(Math.floor(10000000+Math.random()*90000000))}
-async function ensureProfile(user, requestedUsername=''){
- const ref=doc(db,'users',user.uid); const existing=await getDoc(ref);
- if(existing.exists()) return existing.data();
- const username=(requestedUsername||user.displayName||user.email?.split('@')[0]||'Player').trim().slice(0,24);
- // A transaction checks uniqueness of the public 8-digit ID before saving it.
- let profile;
- await runTransaction(db,async tx=>{
-   const fresh=await tx.get(ref); if(fresh.exists()){profile=fresh.data();return;}
-   let publicId=makeId(); let idRef=doc(db,'publicIds',publicId); let idSnap=await tx.get(idRef);
-   for(let i=0;idSnap.exists()&&i<8;i++){publicId=makeId();idRef=doc(db,'publicIds',publicId);idSnap=await tx.get(idRef)}
-   if(idSnap.exists()) throw new Error('Could not create unique player ID. Please try again.');
-   profile={uid:user.uid,username,email:user.email||'',publicId,createdAt:new Date().toISOString()};
-   tx.set(ref,profile); tx.set(idRef,{uid:user.uid,username,publicId});
- });
- return profile;
-}
-async function refreshProfile(user){
- if(!user)return;
- try{const profile=await ensureProfile(user);$id('userBadge').textContent='👤 '+profile.username;$id('openAuth').textContent='Account';$id('logoutBtn').style.display='inline-block';$id('myPublicId').textContent='Your player ID: '+profile.publicId;if($id('username'))$id('username').value=profile.username;}
- catch(e){status('Profile setup issue: '+niceError(e))}
-}
-$id('openAuth').addEventListener('click',()=>{if(auth?.currentUser){refreshProfile(auth.currentUser);alert('You are logged in. Your player ID is shown in Community.');}else openModal('login')});
-$id('closeAuth').addEventListener('click',()=>modal.classList.remove('open'));modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});$id('loginTab').addEventListener('click',()=>mode('login'));$id('registerTab').addEventListener('click',()=>mode('register'));
-$id('registerForm').addEventListener('submit',async e=>{e.preventDefault();if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}const username=$id('regUsername').value.trim(),email=$id('regEmail').value.trim(),password=$id('regPassword').value;if(username.length<3){status('Username must be at least 3 characters.');return}try{const cred=await createUserWithEmailAndPassword(auth,email,password);await updateProfile(cred.user,{displayName:username});await ensureProfile(cred.user,username);modal.classList.remove('open');status('');}catch(err){status(niceError(err))}});
-$id('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}try{await signInWithEmailAndPassword(auth,$id('loginIdentity').value.trim(),$id('loginPassword').value);modal.classList.remove('open');}catch(err){status(niceError(err))}});
-$id('googleLogin').addEventListener('click',async()=>{if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}try{const result=await signInWithPopup(auth,new GoogleAuthProvider());await ensureProfile(result.user);modal.classList.remove('open')}catch(err){status(niceError(err))}});
-$id('forgotPassword').addEventListener('click',async()=>{if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}const email=$id('loginIdentity').value.trim();if(!email){status('Enter your email above first.');return}try{await sendPasswordResetEmail(auth,email);status('Password reset email sent. Check your inbox.')}catch(err){status(niceError(err))}});
-$id('logoutBtn').addEventListener('click',async()=>{if(auth)await signOut(auth)});
-$id('searchUserId').addEventListener('click',async()=>{const id=$id('userIdSearch').value.trim(),out=$id('userSearchResult');if(!/^\d{8}$/.test(id)){out.textContent='Enter a valid 8-digit player ID.';return}if(!firebaseReady){out.textContent='Firebase is not configured yet; ID search will work after setup.';return}try{const snap=await getDoc(doc(db,'publicIds',id));if(!snap.exists()){out.textContent='No player found with that ID.';return}const d=snap.data();out.textContent='Player found: '+d.username+' • ID: '+d.publicId;}catch(e){out.textContent='Search failed: '+niceError(e)}});
-try{if(firebaseConfig.apiKey.startsWith('PASTE_')||firebaseConfig.projectId.startsWith('PASTE_')){status('Setup needed: add Firebase config in the code to enable real accounts.')}else{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);firebaseReady=true;onAuthStateChanged(auth,async user=>{if(user){await refreshProfile(user)}else{$id('userBadge').textContent='Guest';$id('openAuth').textContent='Login / Register';$id('logoutBtn').style.display='none';$id('myPublicId').textContent=''}})}}catch(e){status('Firebase setup error: '+niceError(e))}
-</script>
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-</body></html>
+const SUPABASE_URL = 'https://wlpfdwobntppmdlkapfu.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_H4BqE-74deolLV6_pkgzpA_pLJJbkXy';
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+window.supabaseClient = supabase;
+
+const $ = id => document.getElementById(id);
+const status = $('authStatus');
+function message(text){ if(status) status.textContent=text; }
+function val(form,type){return form?.querySelector(`input[type="${type}"]`)?.value.trim()||'';}
+function pass(form){return form?.querySelector('input[type="password"]')?.value||'';}
+function communityId(){return String(Math.floor(10000000+Math.random()*90000000));}
+
+async function ensureProfile(user, username=''){
+  const {data:existing,error:readError}=await supabase.from('profiles')
+    .select('id, username, community_id').eq('id',user.id).maybeSingle();
+  if(readError) throw readError;
+  if(existing) return existing;
+  for(let i=0;i<5;i++){
+    const {data,error}=await supabase.from('profiles').insert({
+      id:user.id,
+      username:username||user.user_metadata?.username||user.email?.split('@')[0]||'Player',
+      community_id:communityId()
+    }).select('id, username, community_id').single();
+    if(!error)return data;
+    if(error.code!=='23505')throw error;
+  }
+  throw new Error('Could not create Community ID. Check your profiles table.');
+}
+async function refreshUser(user){
+  if(!user){
+    $('userBadge').textContent='Guest';$('myPublicId').textContent='—';
+    $('logoutBtn').classList.add('hidden');$('openAuth').classList.remove('hidden');return;
+  }
+  $('logoutBtn').classList.remove('hidden');$('openAuth').classList.add('hidden');
+  try{
+    const p=await ensureProfile(user);
+    $('userBadge').textContent=p.username;
+    $('myPublicId').textContent=p.community_id;
+  }catch(e){console.error(e);message('Profile error: '+e.message);}
+}
+
+$('registerForm').addEventListener('submit',async e=>{
+  e.preventDefault();const form=e.currentTarget;
+  const username=val(form,'text'),email=val(form,'email'),password=pass(form);
+  try{
+    message('Creating account...');
+    const {data,error}=await supabase.auth.signUp({email,password,options:{data:{username}}});
+    if(error)throw error;
+    if(data.session&&data.user){await ensureProfile(data.user,username);message('Account created!');}
+    else message('Check your email to confirm your account, then log in.');
+  }catch(err){message(err.message||'Registration failed.');}
+});
+$('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();const form=e.currentTarget;
+  try{
+    message('Logging in...');
+    const {data,error}=await supabase.auth.signInWithPassword({email:val(form,'email'),password:pass(form)});
+    if(error)throw error;
+    await refreshUser(data.user);message('Login successful!');
+  }catch(err){message(err.message||'Login failed.');}
+});
+$('googleLogin').addEventListener('click',async()=>{
+  const {error}=await supabase.auth.signInWithOAuth({
+    provider:'google',
+    options:{redirectTo:window.location.origin+window.location.pathname}
+  });
+  if(error)message(error.message);
+});
+$('forgotPassword').addEventListener('click',async()=>{
+  const email=val($('loginForm'),'email');
+  if(!email){message('Enter your email in the login form first.');return;}
+  const {error}=await supabase.auth.resetPasswordForEmail(email,{
+    redirectTo:window.location.origin+window.location.pathname
+  });
+  message(error?error.message:'If the account exists, reset instructions will be sent by email.');
+});
+$('logoutBtn').addEventListener('click',async()=>{
+  const {error}=await supabase.auth.signOut();message(error?error.message:'Logged out.');
+});
+$('searchUserId').addEventListener('click',async()=>{
+  const id=$('userIdSearch').value.trim(),out=$('userSearchResult');
+  if(!id){out.textContent='Enter a Community ID.';return;}
+  const {data,error}=await supabase.from('profiles').select('username, community_id').eq('community_id',id).maybeSingle();
+  out.textContent=error?'Lookup unavailable: check Supabase RLS permissions.':data?`Username: ${data.username} | ID: ${data.community_id}`:'User not found.';
+});
+supabase.auth.onAuthStateChange((event,session)=>{
+  if(['INITIAL_SESSION','SIGNED_IN','SIGNED_OUT','USER_UPDATED'].includes(event))
+    setTimeout(()=>refreshUser(session?.user||null),0);
+});
+console.log('GXRV Supabase client initialized.');
+</script>
+</body>
+</html>
