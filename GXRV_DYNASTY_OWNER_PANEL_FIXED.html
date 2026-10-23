@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080b14"><title>GXRV DYNASTY Trading Hub</title>
+<style>
+:root{--bg:#080b14;--p:#111b2d;--line:#263953;--txt:#eef5ff;--muted:#9eafc8;--blue:#368cff;--cyan:#68e4ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17345b,transparent 48%),var(--bg);color:var(--txt);font:15px/1.5 system-ui,Arial}.wrap{max-width:1200px;margin:auto;padding:16px}.head,.panel,.card{background:linear-gradient(145deg,#132037,#0c1321);border:1px solid var(--line);border-radius:18px;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-weight:950;letter-spacing:2px;font-size:20px}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:3px}.btn,nav button{background:#15243a;color:var(--txt);border:1px solid #304866;padding:10px 13px;border-radius:11px;cursor:pointer}.primary{background:linear-gradient(110deg,#247be2,#6652ed);border:0}.nav{display:flex;gap:7px;overflow:auto;padding:14px 0}.nav button{white-space:nowrap}.nav button.active{background:#244e83;border-color:var(--cyan)}.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin:14px 0}.hero h1{font-size:clamp(35px,5vw,60px);line-height:1.04;margin:12px 0}.grad{background:linear-gradient(90deg,#fff,#7ce4ff,#a89aff);background-clip:text;color:transparent}.muted{color:var(--muted)}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:3px;font-weight:900}.actions,.tools{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}.section{display:none}.section.active{display:block}.title{margin:22px 0 12px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:15px;min-width:0}.art{height:90px;display:grid;place-items:center;font-size:46px;border-radius:12px;background:radial-gradient(circle at top,#294a78,#111c30);margin-bottom:12px}.tag{display:inline-block;border:1px solid #35557b;color:#c3e5ff;border-radius:999px;padding:3px 8px;font-size:11px}.value{color:var(--cyan);font-weight:900}.tools input,.tools select,.field input,.field textarea,.field select{background:#080f1b;border:1px solid #2b405c;border-radius:10px;padding:11px;color:var(--txt);min-width:0}.tools input{flex:1;min-width:150px}.field{display:flex;flex-direction:column;gap:6px;margin:12px 0}.field label{font-size:12px;color:#bfd0e8}.field textarea{min-height:90px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notice{padding:12px;border:1px solid #315273;background:#10243a;border-radius:12px;margin:12px 0}.hidden{display:none!important}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed #344760;border-radius:13px}.toast{display:none;position:fixed;bottom:18px;right:18px;background:#183453;border:1px solid #4b82bd;border-radius:12px;padding:12px}.toast.show{display:block}footer{text-align:center;color:#778ba8;font-size:12px;padding:28px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.head{position:static}}@media(max-width:500px){.wrap{padding:9px}.grid,.grid.two,.row{grid-template-columns:1fr}.hero h1{font-size:39px}}
+ .chatmsg{padding:10px 12px;border:1px solid #263953;background:#0b1423;border-radius:12px;overflow-wrap:anywhere}.chatmeta{font-size:11px;color:#9eafc8;margin-bottom:4px}.memberrow{padding:10px;margin:7px 0;border:1px solid #263953;background:#0b1423;border-radius:10px;overflow-wrap:anywhere}.onlineDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#48d597;margin-right:6px}.offlineDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7d8da5;margin-right:6px}</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body><div class="wrap">
+<header class="head"><div class="brand">👑 GXRV DYNASTY<small>BLOX FRUITS • TRADING HUB</small></div><div><span id="who" class="tag">Guest</span> <button class="btn primary" id="loginOpen">Login / Register</button><button class="btn hidden" id="logout">Logout</button></div></header>
+<nav class="nav" id="nav"><button class="active" data-p="home">🏠 Home</button><button data-p="fruits">🍎 Fruits</button><button data-p="values">💎 Fruit Values</button><button data-p="passes">🎮 Gamepasses</button><button data-p="calc">⚖️ Calculator</button><button data-p="listings">📋 Listings</button><button data-p="normal">🛒 Normal Stock</button><button data-p="mirage">🌌 Mirage Stock</button><button data-p="chat">💬 Community Chat</button><button data-p="reports">🛡️ Scam Reports</button><button data-p="profiles">👤 Profiles</button><button data-p="history">📜 Trade History</button><button data-p="admin" id="adminNav" class="hidden">👑 Admin Panel</button><button data-p="profile">👤 My Profile</button><button data-p="owner" id="ownerNav" class="hidden">👑 Owner</button></nav>
+<section class="section active" id="s-home"><div class="hero"><div class="panel"><div class="eyebrow">BUILT ON TRUST • UNITED BY POWER</div><h1>Trade smart.<br><span class="grad">Rise together.</span></h1><p class="muted">A premium community trading hub for fruit values, trade offers, gamepasses and safer community trading.</p><div class="actions"><button class="btn primary" data-go="listings">Explore Listings ↗</button><button class="btn" data-go="calc">Calculate a Trade</button></div><div class="grid two"><div class="card"><b id="listingCount">0</b><br><span class="muted">Trade listings</span></div><div class="card"><b>13 sections</b><br><span class="muted">One trading hub</span></div></div></div><div class="panel"><div style="font-size:40px">🛡️</div><div class="eyebrow">DYNASTY STANDARD</div><h2>Community first.</h2><p class="muted">Clear values, useful trade tools and a dedicated safety centre.</p><div class="notice">Never share your password or account access. Always verify trades in-game.</div><button class="btn" data-go="reports">Safety Centre →</button></div></div><h2 class="title">Featured Trade Listings</h2><div id="featured" class="grid"></div></section>
+<section class="section" id="s-fruits"><h2 class="title">🍎 Fruits</h2><div class="tools"><input id="fs" placeholder="Search fruit"><select id="rar"><option>All rarities</option><option>Common</option><option>Uncommon</option><option>Rare</option><option>Legendary</option><option>Mythical</option></select></div><div id="fruitGrid" class="grid"></div></section>
+<section class="section" id="s-values"><h2 class="title">💎 Fruit Values</h2><p class="muted">Illustrative community estimates, not official values.</p><div class="tools"><input id="vs" placeholder="Search values"></div><div id="valueGrid" class="grid"></div></section>
+<section class="section" id="s-passes"><h2 class="title">🎮 Gamepasses</h2><div id="passGrid" class="grid"></div></section>
+<section class="section" id="s-calc"><h2 class="title">⚖️ W / F / L Calculator</h2><div class="grid two"><div class="panel"><h3>Your Offer</h3><div class="field"><label>Fruit</label><select id="yf"></select></div><div class="field"><label>Quantity</label><input id="yq" type="number" min="1" value="1"></div><p class="value" id="yv"></p></div><div class="panel"><h3>Their Offer</h3><div class="field"><label>Fruit</label><select id="tf"></select></div><div class="field"><label>Quantity</label><input id="tq" type="number" min="1" value="1"></div><p class="value" id="tv"></p></div></div><div class="panel" style="margin-top:12px"><button class="btn primary" id="compare">Compare Trade</button><h2 id="result">Choose items to compare</h2><p class="muted" id="resultText">Values and demand can change.</p></div></section>
+<section class="section" id="s-listings"><h2 class="title">📋 Trade Listings</h2><div class="panel"><div class="row"><div class="field"><label>Type</label><select id="lt"><option>Trading</option><option>Buying</option><option>Selling</option></select></div><div class="field"><label>Fruit / item</label><input id="li" placeholder="e.g. Buddha"></div></div><div class="field"><label>Wants</label><input id="lw" placeholder="What do you want?"></div><button class="btn primary" id="addListing">＋ Add Listing</button><p class="muted">Demo preview stores offers in this page session; shared listings require a configured database.</p></div><div class="tools"><input id="lsearch" placeholder="Search listings"></div><div id="listingGrid" class="grid"></div></section>
+<section class="section" id="s-normal"><h2 class="title">🛒 Normal Stock</h2><div class="notice">Separate manual stock board. Verify availability in-game; live stock is not connected yet.</div><div class="grid"><div class="card"><div class="art">🛒</div><h3>Normal Stock Board</h3><span class="tag">Manual updates</span></div></div><div class="panel"><h2>Normal Stock</h2><p class="muted">Community-published updates from the existing Supabase stock table.</p><div id="stock-live-normal" class="list"><div class="muted">Loading stock…</div></div></div></section>
+<section class="section" id="s-mirage"><h2 class="title">🌌 Mirage Stock</h2><div class="notice">Dedicated Mirage board. Community sightings should be verified in-game.</div><div class="grid"><div class="card"><div class="art">🌌</div><h3>Mirage Board</h3><span class="tag">Manual updates</span></div></div><div class="panel"><h2>Mirage Stock</h2><p class="muted">Community-published updates from the existing Supabase stock table.</p><div id="stock-live-mirage" class="list"><div class="muted">Loading stock…</div></div></div></section>
+<section class="section" id="s-chat"><h2 class="title">💬 Community Chat</h2><div class="notice">Public community room: messages are visible to signed-in members and may be reviewed by authorized moderators for safety. Do not share passwords, private details, or recovery codes.</div><div class="panel"><div class="row"><div><b id="chatStatus">Connecting…</b><p class="muted">Shared community room</p></div><div><span class="tag" id="onlineCount">Online: —</span></div></div><div id="chatLog" style="max-height:420px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin:12px 0"><div class="empty">Loading community messages…</div></div><div class="field"><label>Message</label><input id="msg" maxlength="500" placeholder="Write a friendly message"></div><button class="btn primary" id="send">Send</button><button class="btn" id="refreshChat">Refresh</button></div></section>
+<section class="section" id="s-reports"><h2 class="title">🛡️ Scam Reports</h2><div class="panel"><div class="notice">Do not include passwords, recovery codes or sensitive personal details.</div><div class="field"><label>Reported username / public ID</label><input id="ru"></div><div class="field"><label>Issue</label><select id="rt"><option>Suspected scam</option><option>Harassment / abuse</option><option>Trade dispute</option><option>Other rule violation</option></select></div><div class="field"><label>Details</label><textarea id="rd"></textarea></div><button class="btn primary" id="report">Submit Report</button><p class="muted">Private delivery must be enforced by backend permissions; this preview does not send reports to moderators.</p></div></section>
+<section class="section" id="s-profiles"><h2 class="title">👤 Trader Profiles</h2><div class="panel"><div class="field"><label>Search public username / community ID</label><input id="ps"></div><button class="btn primary" id="pf">Find Trader</button><div id="pr" style="margin-top:12px"></div></div></section>
+<section class="section" id="s-history"><h2 class="title">📜 Trade History</h2><div class="panel"><div class="row"><div class="field"><label>Trader</label><input id="ht"></div><div class="field"><label>Date</label><input id="hd" type="date"></div></div><div class="field"><label>Trade summary</label><input id="hs" placeholder="Gave … / received …"></div><button class="btn primary" id="ha">Save Record</button><div id="hl" style="margin-top:12px"></div></div></section>
+<section class="section" id="s-admin"><h2 class="title">👑 Admin Panel</h2><div class="panel"><span class="tag">AUTHORIZED ADMIN ONLY</span><h3>GXRV DYNASTY Moderation</h3><p class="muted">Enter the target member’s Supabase User UID. Only authorized admins can create or remove restrictions.</p><div class="notice">Ban = permanent site restriction. Temporary ban = restriction until expiry. Restrict = limited access flag. These controls affect this website only; they do not ban anyone from Roblox or Discord.</div><div class="field"><label>Target User UID</label><input id="modUid" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off"></div><div class="row"><div class="field"><label>Action</label><select id="modAction"><option value="ban">Permanent Ban</option><option value="temp_ban">Temporary Ban</option><option value="restricted">Restricted</option><option value="unban">Remove Restriction / Unban</option></select></div><div class="field"><label>Duration (hours, temporary ban only)</label><input id="modHours" type="number" min="1" max="8760" value="24"></div></div><div class="field"><label>Reason</label><textarea id="modReason" placeholder="Reason for this moderation action"></textarea></div><button class="btn primary" id="applyMod">Apply Action</button><button class="btn" id="refreshMods">Refresh Restrictions</button><h3 class="title">Current Restrictions</h3><div id="modList"><div class="muted">Sign in as admin and load restrictions.</div></div></div></section>
+<footer>GXRV DYNASTY • Community-made trading hub • Not affiliated with Roblox or Blox Fruits.<br>Sample values are estimates and may be inaccurate.</footer></div><div id="toast" class="toast"></div>
+<div id="modal" style="display:none;position:fixed;inset:0;background:#000c;z-index:20;place-items:center;padding:15px"><div class="panel" style="width:min(430px,100%)"><button class="btn" style="float:right" id="close">✕</button><h2>Login / Register</h2><p class="muted">Sign in or create an account with your email and password.</p><div class="field"><label>Email</label><input type="email" id="email"></div><div class="field"><label>Password</label><input type="password" id="password"></div><button class="btn primary" id="login">Login</button><button class="btn" id="register">Register</button><p class="muted">Email confirmation is controlled by your Supabase project settings.</p></div></div>
+<script>
+const F=[["Rocket","Common","🚀",5000],["Spin","Common","🌀",7500],["Blade","Common","🗡️",30000],["Spring","Common","🌱",60000],["Bomb","Common","💣",80000],["Smoke","Common","💨",100000],["Flame","Uncommon","🔥",250000],["Ice","Uncommon","❄️",350000],["Sand","Uncommon","🏜️",420000],["Dark","Uncommon","🌑",500000],["Light","Rare","✨",800000],["Magma","Rare","🌋",1100000],["Quake","Rare","🌊",1000000],["Buddha","Legendary","🙏",1200000],["Portal","Legendary","🌀",2000000],["Rumble","Legendary","⚡",2100000],["Blizzard","Legendary","🌨️",2200000],["Dough","Mythical","🍩",2800000],["Shadow","Mythical","🌘",2900000],["Venom","Mythical","☠️",3000000],["Control","Mythical","🎛️",3200000],["Spirit","Mythical","👻",3400000],["Leopard","Mythical","🐆",5000000],["Yeti","Mythical","❄️",6000000],["Kitsune","Mythical","🦊",8000000],["Dragon","Mythical","🐉",9000000]];
+const P=[["2x Money","💰","4.5M"],["2x Mastery","⚔️","3.5M"],["Fast Boats","🚤","1.5M"],["Fruit Notifier","🔔","9M"],["+1 Fruit Storage","📦","4.5M"],["2x Boss Drops","👑","2.5M"]];
+const $=x=>document.getElementById(x), esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])), nfmt=n=>Number(n).toLocaleString("en-US");let offers=[],chats=[],hist=[];
+function go(p){document.querySelectorAll(".section").forEach(s=>{const selected=s.id==="s-"+p;s.classList.toggle("active",selected);s.classList.toggle("hidden",!selected)});document.querySelectorAll("[data-p]").forEach(b=>b.classList.toggle("active",b.dataset.p===p));scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>go(b.dataset.p));document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+function fruitCard(f){return `<article class="card"><div class="art">${f[2]}</div><h3>${f[0]}</h3><span class="tag">${f[1]}</span><p class="value">Est. ${nfmt(f[3])}</p><small class="muted">Community estimate</small></article>`}
+function drawF(){let q=$("fs").value.toLowerCase(),r=$("rar").value;$("fruitGrid").innerHTML=F.filter(f=>f[0].toLowerCase().includes(q)&&(r==="All rarities"||f[1]===r)).map(fruitCard).join("")||'<div class="empty">No fruit found.</div>'}
+function drawV(){let q=$("vs").value.toLowerCase();$("valueGrid").innerHTML=F.filter(f=>f[0].toLowerCase().includes(q)).map(f=>`<article class="card"><div class="art">${f[2]}</div><h3>${f[0]}</h3><span class="tag">${f[1]}</span><p>Physical: <b class="value">${nfmt(f[3])}</b></p><p>Permanent: <b class="value">${nfmt(f[3]*100)}</b></p><small class="muted">Illustrative estimate only</small></article>`).join("")}
+$("passGrid").innerHTML=P.map(p=>`<article class="card"><div class="art">${p[1]}</div><h3>${p[0]}</h3><p class="value">Est. ${p[2]}</p><span class="tag">Gamepass</span></article>`).join("");
+function drawL(){let q=$("lsearch").value.toLowerCase(),a=offers.filter(o=>(o.item+" "+o.want).toLowerCase().includes(q));$("listingGrid").innerHTML=a.map(o=>`<article class="card"><div class="art">🤝</div><h3>${esc(o.item)}</h3><span class="tag">${esc(o.type)}</span><p>Wants: ${esc(o.want||"Offers")}</p></article>`).join("")||'<div class="empty">No listings yet. Add an offer above.</div>';$("featured").innerHTML=offers.slice(0,3).map(o=>`<article class="card"><div class="art">🤝</div><h3>${esc(o.item)}</h3><span class="tag">${esc(o.type)}</span><p>${esc(o.want||"Offers")}</p></article>`).join("")||'<div class="empty">Featured member offers will appear here.</div>';$("listingCount").textContent=offers.length}
+$("addListing").onclick=()=>{if(!$("li").value.trim())return notify("Enter an item.");offers.unshift({type:$("lt").value,item:$("li").value.trim(),want:$("lw").value.trim()});$("li").value=$("lw").value="";drawL();notify("Added to this preview session.")};$("lsearch").oninput=drawL;
+["fs","rar"].forEach(i=>$(i).oninput=drawF);$("vs").oninput=drawV;
+["yf","tf"].forEach(id=>$(id).innerHTML=F.map(f=>`<option value="${f[0]}">${f[0]}</option>`).join(""));
+function compare(){let a=F.find(f=>f[0]===$("yf").value)[3]*Math.max(1,+$("yq").value),b=F.find(f=>f[0]===$("tf").value)[3]*Math.max(1,+$("tq").value);$("yv").textContent="Value: "+nfmt(a);$("tv").textContent="Value: "+nfmt(b);let d=Math.abs(a-b)/Math.max(a,b)*100;$("result").textContent=d<5?"⚖️ Fair by estimate":b>a?"📈 Win by estimate":"📉 Loss by estimate";$("resultText").textContent="Estimated difference "+d.toFixed(1)+"%. Demand may change the outcome."}["yf","tf","yq","tq"].forEach(id=>$(id).onchange=compare);$("compare").onclick=compare;compare();
+// Shared public chat and online presence. Database tables/policies are created by the companion SQL file.
+let chatChannel=null, presenceChannel=null, presenceUsers={};
+function displayName(user){return user?.user_metadata?.display_name || user?.user_metadata?.username || (user?.email ? user.email.split('@')[0] : 'Member');}
+async function loadCommunityChat(){
+  if(!sb){$("chatStatus").textContent="Supabase unavailable";return;}
+  const {data,error}=await sb.from('gxrv_chat_messages').select('id,user_id,display_name,message,created_at').order('created_at',{ascending:false}).limit(60);
+  if(error){$("chatStatus").textContent="Chat setup needed";$("chatLog").innerHTML='<div class="notice">Chat database is not ready yet. Run GXRV_DYNASTY_CHAT_SETUP.sql in Supabase SQL Editor.</div>';return;}
+  const rows=(data||[]).reverse();
+  $("chatStatus").textContent=currentUser?"Connected":"Sign in to send messages";
+  $("chatLog").innerHTML=rows.map(r=>`<div class="chatmsg"><div class="chatmeta">${esc(r.display_name||'Member')} • ${esc(new Date(r.created_at).toLocaleString())}${isOwner?` • UID: ${esc(r.user_id)}`:''}</div><div>${esc(r.message)}</div>${isOwner?`<button class="btn" data-delete-chat="${esc(r.id)}" style="margin-top:6px">Remove message</button>`:''}</div>`).join('')||'<div class="empty">No messages yet. Start a friendly conversation!</div>';
+  $("chatLog").scrollTop=$("chatLog").scrollHeight;
+  $("chatLog").querySelectorAll('[data-delete-chat]').forEach(btn=>btn.onclick=async()=>{
+    if(!isOwner)return notify('Owner access required.');
+    if(!confirm('Remove this public chat message?'))return;
+    const {error}=await sb.from('gxrv_chat_messages').delete().eq('id',btn.dataset.deleteChat);
+    if(error)return notify('Could not remove message: '+error.message);
+    await loadCommunityChat();notify('Message removed.');
+  });
+}
+async function startPresence(){
+  if(!sb||!currentUser)return;
+  if(presenceChannel){try{await sb.removeChannel(presenceChannel)}catch(e){}}
+  presenceChannel=sb.channel('gxrv-dynasty-presence',{config:{presence:{key:currentUser.id}}});
+  presenceChannel.on('presence',{event:'sync'},()=>{
+    presenceUsers=presenceChannel.presenceState();
+    const count=Object.keys(presenceUsers).length;
+    const el=$('onlineCount');if(el)el.textContent='Online: '+count;
+  });
+  await presenceChannel.subscribe(async status=>{
+    if(status==='SUBSCRIBED'){
+      await presenceChannel.track({user_id:currentUser.id,display_name:displayName(currentUser),online_at:new Date().toISOString()});
+      await sb.from('gxrv_profiles').upsert({user_id:currentUser.id,username:displayName(currentUser),last_seen_at:new Date().toISOString()},{onConflict:'user_id'});
+    }
+  });
+}
+async function sendCommunityMessage(){
+  if(!sb)return notify('Supabase unavailable.');
+  if(!currentUser)return notify('Please log in to send a message.');
+  const message=$('msg').value.trim();if(!message)return;
+  if(message.length>500)return notify('Message limit is 500 characters.');
+  const {error}=await sb.from('gxrv_chat_messages').insert({user_id:currentUser.id,display_name:displayName(currentUser),message});
+  if(error)return notify('Could not send: '+error.message);
+  $('msg').value='';await loadCommunityChat();
+}
+if($('send'))$('send').onclick=sendCommunityMessage;
+if($('refreshChat'))$('refreshChat').onclick=loadCommunityChat;
+if($('msg'))$('msg').addEventListener('keydown',e=>{if(e.key==='Enter')sendCommunityMessage()});
+async function loadOwnerMembers(){
+  if(!isOwner)return notify('Owner access required.');
+  const el=$('ownerMemberList');if(!el)return;
+  el.innerHTML='<div class="muted">Loading members…</div>';
+  const {data,error}=await sb.from('gxrv_profiles').select('user_id,username,bio,avatar_url,last_seen_at,created_at').order('last_seen_at',{ascending:false}).limit(200);
+  if(error){el.innerHTML='<div class="notice">Member table unavailable. Run the chat setup SQL. '+esc(error.message)+'</div>';return;}
+  const onlineIds=new Set(Object.keys(presenceUsers));
+  el.innerHTML=(data||[]).map(m=>`<div class="memberrow"><b><span class="${onlineIds.has(m.user_id)?'onlineDot':'offlineDot'}"></span>${esc(m.username||'Member')}</b><div class="muted" style="font-size:12px">UID: ${esc(m.user_id)}</div><div class="muted" style="font-size:12px">Status: ${onlineIds.has(m.user_id)?'Online now':'Offline / not visible in this live session'}</div><div class="muted" style="font-size:12px">Last seen: ${m.last_seen_at?esc(new Date(m.last_seen_at).toLocaleString()):'Not recorded'}</div><div>${esc(m.bio||'')}</div></div>`).join('')||'<div class="empty">No member profiles recorded yet. Members appear after signing in.</div>';
+}
+if($('ownerMembersBtn'))$('ownerMembersBtn').onclick=loadOwnerMembers;
+
+$("report").onclick=()=>notify("Report form preview only; secure delivery is not connected.");$("pf").onclick=()=>{$("pr").innerHTML='<div class="empty">Profile search needs database connection.</div>'};
+$("ha").onclick=()=>{if(!$("ht").value.trim()||!$("hs").value.trim())return notify("Enter trader and trade summary.");hist.unshift({t:$("ht").value,s:$("hs").value,d:$("hd").value});$("hl").innerHTML=hist.map(h=>`<div class="card"><b>${esc(h.t)}</b><p>${esc(h.s)}</p><small>${esc(h.d||"Date not set")}</small></div>`).join("")};
+const SUPABASE_URL='https://wlpfdwobntppmdlkapfu.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_H4BqE-74deolLV6_pkgzpA_pLJJbkXy';
+const sb=window.supabase?.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let currentUser=null, isAdmin=false, isOwner=false;
+const OWNER_UID="32fd5db9-9714-4b81-ba0d-51ed7d786224";
+function ownerNotice(msg){ if(typeof notify==="function") notify(msg); else alert(msg); }
+function showSection(id){ document.querySelectorAll(".section").forEach(el=>{el.classList.remove("active");el.classList.add("hidden")}); const el=document.getElementById(id); if(el){el.classList.remove("hidden");el.classList.add("active")} }
+$("loginOpen").onclick=()=>{$("modal").style.display="grid"};$("close").onclick=()=>{$("modal").style.display="none"};
+async function syncAuth(){
+  if(!sb){$("who").textContent="Supabase library failed to load";return}
+  const {data,error}=await sb.auth.getSession();
+  currentUser=data?.session?.user||null; isAdmin=false; isOwner=!!currentUser && currentUser.id===OWNER_UID;
+  if(currentUser){
+    // Admin UI is shown only after the logged-in UID is found in the existing admin table.
+    const {data:adminRow,error:adminErr}=await sb.from('gxrv_admins').select('user_id').eq('user_id',currentUser.id).maybeSingle();
+    isAdmin=!adminErr&&!!adminRow;
+    $("who").textContent=(currentUser.email||"Signed in")+(isAdmin?" • ADMIN":"");
+    $("adminNav").classList.toggle("hidden",!isAdmin);
+    if($("ownerNav")) $("ownerNav").classList.toggle("hidden",!isOwner);
+    if(!isOwner && $("s-owner")) $("s-owner").innerHTML='<div class="panel"><h2>Owner access required</h2><p class="muted">Sign in with the configured Owner account.</p></div>';
+    if(!isAdmin) $("s-admin").innerHTML='<div class="panel"><h2>Admin access required</h2><p class="muted">This account is not listed in the authorized admin table.</p></div>';
+  }else{
+    $("who").textContent="Guest";
+    $("adminNav").classList.add("hidden");
+    if($("ownerNav")) $("ownerNav").classList.add("hidden");
+    $("s-admin").innerHTML='<div class="panel"><h2>Admin access required</h2><p class="muted">Sign in with an authorized administrator account.</p></div>';
+  }
+  $("loginOpen").classList.toggle("hidden",!!currentUser);
+  $("logout").classList.toggle("hidden",!currentUser);
+  if(currentUser && !isAdmin){
+    const {data:restriction,error:restrictionError}=await sb.from('gxrv_user_restrictions').select('action_type,reason,expires_at').eq('user_id',currentUser.id).maybeSingle();
+    if(!restrictionError && restriction && (restriction.action_type==='ban' || restriction.action_type==='restricted' || (restriction.action_type==='temp_ban' && (!restriction.expires_at || new Date(restriction.expires_at)>new Date())))){
+      await sb.auth.signOut();currentUser=null;
+      notify('Access blocked: '+(restriction.reason||restriction.action_type));
+      $("who").textContent='Restricted account';$("loginOpen").classList.remove('hidden');$("logout").classList.add('hidden');
+    }
+  }
+  if(isAdmin) await loadModerationList();
+  if(currentUser){ startPresence(); loadCommunityChat(); } else { $("chatStatus") && ($("chatStatus").textContent="Sign in to chat"); }
+}
+$("login").onclick=async()=>{
+  if(!sb)return notify("Supabase library unavailable. Check connection.");
+  const email=$("email").value.trim(),password=$("password").value;
+  if(!email||!password)return notify("Enter email and password.");
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  if(error)return notify("Login failed: "+error.message);
+  await syncAuth();$("modal").style.display="none";notify(isAdmin?"Admin login successful.":"Login successful.");
+};
+$("register").onclick=async()=>{
+  if(!sb)return notify("Supabase library unavailable. Check connection.");
+  const email=$("email").value.trim(),password=$("password").value;
+  if(!email||!password)return notify("Enter email and password.");
+  if(password.length<6)return notify("Password must be at least 6 characters.");
+  const {data,error}=await sb.auth.signUp({email,password});
+  if(error)return notify("Registration failed: "+error.message);
+  if(data.session){await syncAuth();notify("Account created.");}
+  else notify("Account created, but no session was returned. Check Supabase email confirmation settings.");
+};
+$("logout").onclick=async()=>{if(sb)await sb.auth.signOut();await syncAuth();go("home");notify("Logged out.")};
+function notify(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),3500)}
+if(sb){syncAuth();loadExistingStock();loadCommunityChat();sb.auth.onAuthStateChange(()=>setTimeout(()=>{syncAuth();loadExistingStock();loadCommunityChat()},0));}
+else $("who").textContent="Supabase CDN unavailable";
+
+async function loadExistingStock(){
+  if(!sb)return;
+  for(const type of ['normal','mirage']){
+    const el=$('stock-live-'+type);if(!el)continue;
+    const {data,error}=await sb.from('gxrv_stock').select('stock_type,fruits,note,updated_at').eq('stock_type',type).order('updated_at',{ascending:false}).limit(1);
+    if(error){el.innerHTML='<div class="muted">Stock table not available yet. Existing database data has not been changed.</div>';continue}
+    const row=data?.[0];
+    el.innerHTML=row?`<div class="card"><div class="tags">${(row.fruits||[]).map(f=>`<span class="tag">${esc(f)}</span>`).join(' ')||'No fruits listed'}</div><p>${esc(row.note||'Community update')}</p><small class="muted">Updated ${new Date(row.updated_at).toLocaleString()}</small></div>`:'<div class="muted">No stock update published yet.</div>';
+  }
+}
+async function loadModerationList(){
+  if(!sb||!isAdmin)return;
+  const el=$("modList"); if(!el)return;
+  const {data,error}=await sb.from('gxrv_user_restrictions').select('user_id,action_type,reason,expires_at,created_at').order('created_at',{ascending:false}).limit(100);
+  if(error){el.innerHTML='<div class="notice">Moderation table unavailable. Run the supplied SQL setup file in Supabase SQL Editor.</div>';return;}
+  el.innerHTML=(data||[]).map(r=>`<div class="card" style="margin:8px 0"><b>${esc(r.action_type)}</b><p class="muted" style="overflow-wrap:anywhere">UID: ${esc(r.user_id)}</p><p>${esc(r.reason||'No reason supplied')}</p><small class="muted">${r.expires_at?'Expires: '+esc(new Date(r.expires_at).toLocaleString()):'No expiry'} • ${esc(new Date(r.created_at).toLocaleString())}</small></div>`).join('')||'<div class="empty">No active restriction records.</div>';
+}
+if($("applyMod"))$("applyMod").onclick=async()=>{
+  if(!sb||!isAdmin)return notify('Admin access required.');
+  const uid=$("modUid").value.trim(),action=$("modAction").value,reason=$("modReason").value.trim();
+  if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(uid))return notify('Enter a valid Supabase User UID.');
+  if(uid===currentUser.id)return notify('You cannot restrict your own admin account.');
+  if(!reason && action!=='unban')return notify('Enter a reason for this action.');
+  if(action==='unban'){
+    const {error}=await sb.from('gxrv_user_restrictions').delete().eq('user_id',uid);
+    if(error)return notify('Could not remove restriction: '+error.message);
+    notify('Restriction removed.');
+  }else{
+    let expires_at=null;
+    if(action==='temp_ban'){
+      const hours=Number($("modHours").value);if(!Number.isFinite(hours)||hours<1||hours>8760)return notify('Duration must be 1–8760 hours.');
+      expires_at=new Date(Date.now()+hours*3600000).toISOString();
+    }
+    const {error}=await sb.from('gxrv_user_restrictions').upsert({user_id:uid,action_type:action,reason,expires_at,created_by:currentUser.id,created_at:new Date().toISOString()},{onConflict:'user_id'});
+    if(error)return notify('Could not apply action: '+error.message);
+    notify('Moderation action saved.');
+  }
+  await loadModerationList();
+};
+if($("refreshMods"))$("refreshMods").onclick=loadModerationList;
+/* Front-end admin visibility is only a convenience. Enforce admin permissions with Supabase RLS policies too.
+   Never place a service-role/secret key in a public HTML file. */
+
+// Basic profile editor: saved locally on this device/browser.
+(function(){
+  const $p = id => document.getElementById(id);
+  const key = () => 'gxrv_profile_' + (currentUser?.id || 'guest');
+  function loadProfile(){
+    const saved = JSON.parse(localStorage.getItem(key()) || '{}');
+    if ($p('profileName')) $p('profileName').value = saved.name || '';
+    if ($p('profileBio')) $p('profileBio').value = saved.bio || '';
+    if ($p('profilePreview')) $p('profilePreview').src = saved.photo || 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#15243a"/><text x="50" y="58" text-anchor="middle" font-size="36" fill="#68e4ff">👤</text></svg>');
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav [data-p="profile"]').forEach(btn => btn.addEventListener('click', () => {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('s-profile')?.classList.add('active');
+      btn.classList.add('active'); loadProfile();
+    }));
+    $p('profilePhoto')?.addEventListener('change', e => {
+      const file=e.target.files?.[0]; if(!file) return;
+      if(file.size > 1024*1024){ alert('Please choose an image under 1 MB.'); e.target.value=''; return; }
+      const reader=new FileReader(); reader.onload=()=>{ $p('profilePreview').src=reader.result; $p('profilePreview').dataset.newPhoto=reader.result; }; reader.readAsDataURL(file);
+    });
+    $p('saveProfile')?.addEventListener('click', () => {
+      try {
+        const old=JSON.parse(localStorage.getItem(key())||'{}');
+        const profile={name:$p('profileName').value.trim(),bio:$p('profileBio').value.trim(),photo:$p('profilePreview').dataset.newPhoto || old.photo || ''};
+        localStorage.setItem(key(), JSON.stringify(profile));
+        $p('profileMessage').textContent='Profile saved on this device.';
+        delete $p('profilePreview').dataset.newPhoto;
+      } catch(e) { $p('profileMessage').textContent='Could not save. Try a smaller profile picture.'; }
+    });
+    loadProfile();
+  });
+})();
+
+</script>
+
+<section class="section" id="s-profile">
+  <div class="panel">
+    <h2>👤 My Profile</h2>
+    <p class="muted">Set your display name, profile picture and bio.</p>
+    <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:16px 0">
+      <img id="profilePreview" alt="Profile picture" src="" style="width:100px;height:100px;object-fit:cover;border-radius:50%;border:2px solid #368cff;background:#0c1321">
+      <div><label for="profilePhoto">Choose profile picture</label><br><input id="profilePhoto" type="file" accept="image/*"><small class="muted" style="display:block">Choose a small image for best results.</small></div>
+    </div>
+    <label for="profileName">Display name</label>
+    <input id="profileName" maxlength="40" placeholder="Enter your name" style="width:100%;margin:6px 0 14px;padding:12px;border-radius:10px;background:#080b14;color:#eef5ff;border:1px solid #304866">
+    <label for="profileBio">Bio</label>
+    <textarea id="profileBio" maxlength="180" rows="3" placeholder="Write a short bio..." style="width:100%;margin:6px 0 14px;padding:12px;border-radius:10px;background:#080b14;color:#eef5ff;border:1px solid #304866"></textarea>
+    <button class="primary btn" id="saveProfile">Save Profile</button>
+    <p class="muted" id="profileMessage">Profile changes are saved in this browser on this device.</p>
+  </div>
+</section>
+
+<section id="s-owner" class="section hidden">
+  <div class="panel">
+    <h2>👑 GXRV DYNASTY — OWNER CONTROL</h2>
+    <p class="muted">Owner account: <code>32fd5db9-9714-4b81-ba0d-51ed7d786224</code></p>
+    <div class="notice">Owner controls are shown only to the configured Owner UID. Sensitive actions must also be enforced by Supabase RLS or secure server-side functions; hiding buttons in HTML alone is not security.</div>
+    <div class="grid">
+      <div class="panel"><h3>🛡️ User Moderation</h3><p>Permanent ban, temporary ban, restrict/unrestrict, unban, reason and moderation history.</p><button onclick="showSection('s-admin')">Open Moderation</button></div>
+      <div class="panel"><h3>👥 Staff Access</h3><p>Manage admins and moderators after a secure server-side role system is configured.</p><button onclick="ownerNotice('Staff management needs a protected database table and server-side permissions before it can change roles.')">Manage Staff</button></div>
+      <div class="panel"><h3>📣 Announcements</h3><p>Prepare global announcements for the community.</p><button onclick="ownerNotice('Announcement publishing needs an announcements table and secure insert policy.')">Announcements</button></div>
+      <div class="panel"><h3>🍎 Trading Controls</h3><p>Fruit values, listings and stock management.</p><button onclick="ownerNotice('Trading controls need to be connected to your existing stock/listings tables.')">Trading Settings</button></div>
+      <div class="panel"><h3>🔒 Security</h3><p>Audit logs, emergency lockdown and access review.</p><button onclick="ownerNotice('Security actions require protected server-side functions; this button does not change site access yet.')">Security Tools</button></div>
+      <div class="panel"><h3>👥 Members & Activity</h3><p>See member profiles, UID, online presence and last-seen data when they use the site. Online status is approximate and only works while the page is connected.</p><button class="btn primary" id="ownerMembersBtn">Open Member Monitor</button><div id="ownerMemberList" style="margin-top:12px"></div></div>
+      <div class="panel"><h3>📊 Site Overview</h3><p>View status and plan future administration tools.</p><button onclick="ownerNotice('Analytics are not connected yet.')">View Analytics</button></div>
+    </div>
+  </div>
+</section>
+
+</body></html>
