@@ -162,58 +162,7 @@ $("clearMine").onclick=()=>{if(confirm("Delete the listings saved on this device
 renderFilters();renderFruits();fillSelects();renderStock();renderGamepasses();updateStockTimers();setInterval(updateStockTimers,1000);renderListings();
 </script>
 
-<script type="module">
-// SETUP REQUIRED: replace the placeholder values below with your Firebase Web App config.
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs, runTransaction } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_FIREBASE_APP_ID"
-};
-const $id = id => document.getElementById(id);
-let auth=null, db=null, firebaseReady=false;
-const modal=$id('authModal');
-function status(msg){$id('authStatus').textContent=msg}
-function mode(m){$id('authTitle').textContent=m==='login'?'Welcome back':'Create your account';$id('loginForm').style.display=m==='login'?'grid':'none';$id('registerForm').style.display=m==='register'?'grid':'none';$id('loginTab').className=m==='login'?'btn':'btn secondary';$id('registerTab').className=m==='register'?'btn':'btn secondary';status('')}
-function openModal(m='login'){modal.classList.add('open');mode(m)}
-function niceError(e){const c=e?.code||'';return ({'auth/email-already-in-use':'This email is already registered. Try logging in.','auth/invalid-credential':'Email or password is incorrect.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Please enter a valid email.','auth/popup-closed-by-user':'Google sign-in was cancelled.','auth/unauthorized-domain':'Add this website domain in Firebase Authentication → Settings → Authorized domains.'})[c]||e.message||'Something went wrong. Check Firebase setup.'}
-function makeId(){return String(Math.floor(10000000+Math.random()*90000000))}
-async function ensureProfile(user, requestedUsername=''){
- const ref=doc(db,'users',user.uid); const existing=await getDoc(ref);
- if(existing.exists()) return existing.data();
- const username=(requestedUsername||user.displayName||user.email?.split('@')[0]||'Player').trim().slice(0,24);
- // A transaction checks uniqueness of the public 8-digit ID before saving it.
- let profile;
- await runTransaction(db,async tx=>{
-   const fresh=await tx.get(ref); if(fresh.exists()){profile=fresh.data();return;}
-   let publicId=makeId(); let idRef=doc(db,'publicIds',publicId); let idSnap=await tx.get(idRef);
-   for(let i=0;idSnap.exists()&&i<8;i++){publicId=makeId();idRef=doc(db,'publicIds',publicId);idSnap=await tx.get(idRef)}
-   if(idSnap.exists()) throw new Error('Could not create unique player ID. Please try again.');
-   profile={uid:user.uid,username,email:user.email||'',publicId,createdAt:new Date().toISOString()};
-   tx.set(ref,profile); tx.set(idRef,{uid:user.uid,username,publicId});
- });
- return profile;
-}
-async function refreshProfile(user){
- if(!user)return;
- try{const profile=await ensureProfile(user);$id('userBadge').textContent='👤 '+profile.username;$id('openAuth').textContent='Account';$id('logoutBtn').style.display='inline-block';$id('myPublicId').textContent='Your player ID: '+profile.publicId;if($id('username'))$id('username').value=profile.username;}
- catch(e){status('Profile setup issue: '+niceError(e))}
-}
-$id('openAuth').addEventListener('click',()=>{if(auth?.currentUser){refreshProfile(auth.currentUser);alert('You are logged in. Your player ID is shown in Community.');}else openModal('login')});
-$id('closeAuth').addEventListener('click',()=>modal.classList.remove('open'));modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});$id('loginTab').addEventListener('click',()=>mode('login'));$id('registerTab').addEventListener('click',()=>mode('register'));
-$id('registerForm').addEventListener('submit',async e=>{e.preventDefault();if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}const username=$id('regUsername').value.trim(),email=$id('regEmail').value.trim(),password=$id('regPassword').value;if(username.length<3){status('Username must be at least 3 characters.');return}try{const cred=await createUserWithEmailAndPassword(auth,email,password);await updateProfile(cred.user,{displayName:username});await ensureProfile(cred.user,username);modal.classList.remove('open');status('');}catch(err){status(niceError(err))}});
-$id('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}try{await signInWithEmailAndPassword(auth,$id('loginIdentity').value.trim(),$id('loginPassword').value);modal.classList.remove('open');}catch(err){status(niceError(err))}});
-$id('googleLogin').addEventListener('click',async()=>{if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}try{const result=await signInWithPopup(auth,new GoogleAuthProvider());await ensureProfile(result.user);modal.classList.remove('open')}catch(err){status(niceError(err))}});
-$id('forgotPassword').addEventListener('click',async()=>{if(!firebaseReady){status('Firebase is not configured yet. Follow the setup steps first.');return}const email=$id('loginIdentity').value.trim();if(!email){status('Enter your email above first.');return}try{await sendPasswordResetEmail(auth,email);status('Password reset email sent. Check your inbox.')}catch(err){status(niceError(err))}});
-$id('logoutBtn').addEventListener('click',async()=>{if(auth)await signOut(auth)});
-$id('searchUserId').addEventListener('click',async()=>{const id=$id('userIdSearch').value.trim(),out=$id('userSearchResult');if(!/^\d{8}$/.test(id)){out.textContent='Enter a valid 8-digit player ID.';return}if(!firebaseReady){out.textContent='Firebase is not configured yet; ID search will work after setup.';return}try{const snap=await getDoc(doc(db,'publicIds',id));if(!snap.exists()){out.textContent='No player found with that ID.';return}const d=snap.data();out.textContent='Player found: '+d.username+' • ID: '+d.publicId;}catch(e){out.textContent='Search failed: '+niceError(e)}});
-try{if(firebaseConfig.apiKey.startsWith('PASTE_')||firebaseConfig.projectId.startsWith('PASTE_')){status('Setup needed: add Firebase config in the code to enable real accounts.')}else{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);firebaseReady=true;onAuthStateChanged(auth,async user=>{if(user){await refreshProfile(user)}else{$id('userBadge').textContent='Guest';$id('openAuth').textContent='Login / Register';$id('logoutBtn').style.display='none';$id('myPublicId').textContent=''}})}}catch(e){status('Firebase setup error: '+niceError(e))}
-</script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
