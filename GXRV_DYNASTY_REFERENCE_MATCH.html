@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100707"><title>GXRV DYNASTY Trading Hub</title>
+<style>
+:root{--bg:#080b14;--p:#111b2d;--line:#263953;--txt:#eef5ff;--muted:#9eafc8;--blue:#368cff;--cyan:#68e4ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17345b,transparent 48%),var(--bg);color:var(--txt);font:15px/1.5 system-ui,Arial}.wrap{max-width:1200px;margin:auto;padding:16px}.head,.panel,.card{background:linear-gradient(145deg,#132037,#0c1321);border:1px solid var(--line);border-radius:18px;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-weight:950;letter-spacing:2px;font-size:20px}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:3px}.btn,nav button{background:#15243a;color:var(--txt);border:1px solid #304866;padding:10px 13px;border-radius:11px;cursor:pointer}.primary{background:linear-gradient(110deg,#247be2,#6652ed);border:0}.nav{display:flex;gap:7px;overflow:auto;padding:14px 0}.nav button{white-space:nowrap}.nav button.active{background:#244e83;border-color:var(--cyan)}.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin:14px 0}.hero h1{font-size:clamp(35px,5vw,60px);line-height:1.04;margin:12px 0}.grad{background:linear-gradient(90deg,#fff,#7ce4ff,#a89aff);background-clip:text;color:transparent}.muted{color:var(--muted)}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:3px;font-weight:900}.actions,.tools{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}.section{display:none}.section.active{display:block}.title{margin:22px 0 12px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:15px;min-width:0}.art{height:90px;display:grid;place-items:center;font-size:46px;border-radius:12px;background:radial-gradient(circle at top,#294a78,#111c30);margin-bottom:12px}.tag{display:inline-block;border:1px solid #35557b;color:#c3e5ff;border-radius:999px;padding:3px 8px;font-size:11px}.value{color:var(--cyan);font-weight:900}.tools input,.tools select,.field input,.field textarea,.field select{background:#080f1b;border:1px solid #2b405c;border-radius:10px;padding:11px;color:var(--txt);min-width:0}.tools input{flex:1;min-width:150px}.field{display:flex;flex-direction:column;gap:6px;margin:12px 0}.field label{font-size:12px;color:#bfd0e8}.field textarea{min-height:90px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notice{padding:12px;border:1px solid #315273;background:#10243a;border-radius:12px;margin:12px 0}.hidden{display:none!important}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed #344760;border-radius:13px}.toast{display:none;position:fixed;bottom:18px;right:18px;background:#183453;border:1px solid #4b82bd;border-radius:12px;padding:12px}.toast.show{display:block}footer{text-align:center;color:#778ba8;font-size:12px;padding:28px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.head{position:static}}@media(max-width:500px){.wrap{padding:9px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.grid.two,.row{grid-template-columns:1fr}.hero h1{font-size:clamp(31px,9vw,39px)}.card{padding:10px;border-radius:13px}.art{height:78px}.fruit-illustration{width:62px;height:62px}.value{overflow-wrap:anywhere}.nav{gap:6px}.nav button{padding:9px 10px;font-size:12px}.head{padding:12px}.chatmsg{padding:9px}.section .panel{padding:13px}} @media(max-width:360px){.grid{grid-template-columns:1fr}}
+ .chatmsg{padding:10px 12px;border:1px solid #263953;background:#0b1423;border-radius:12px;overflow-wrap:anywhere}.chatmeta{font-size:11px;color:#9eafc8;margin-bottom:4px}.memberrow{padding:10px;margin:7px 0;border:1px solid #263953;background:#0b1423;border-radius:10px;overflow-wrap:anywhere}.onlineDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#48d597;margin-right:6px}.offlineDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7d8da5;margin-right:6px}
+/* Chat and stock boards: distinct responsive layouts; existing Supabase tables retained */
+.chat-heading,.chat-toolbar,.chat-compose,.mirage-status{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.chat-shell{background:linear-gradient(145deg,#180b0b,#080808)}.chat-log{max-height:55vh;min-height:240px;overflow:auto;display:flex;flex-direction:column;gap:9px;margin:12px 0;padding:10px;border:1px solid #452020;border-radius:14px;background:radial-gradient(ellipse at top,#270b0b,#090909 75%)}.chat-compose{align-items:end;border-top:1px solid #452020;padding-top:10px}.chat-compose .field{flex:1;min-width:190px;margin:0}.stock-hero{overflow:hidden;background:radial-gradient(ellipse at top right,#3a1010,#100909 55%,#080808)}.mirage-hero{background:radial-gradient(ellipse at top right,#34204a,#170b20 42%,#090707 80%);border-color:#5b3477}.mirage-hero .eyebrow{color:#d6a3ff}.mirage-hero .tag{border-color:#69478a;color:#e4c5ff;background:#261336}.stock-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px;margin:16px 0}.stock-board .card{padding:12px}.stock-board .tag{margin:3px}.mirage-status{justify-content:flex-start;margin:12px 0;font-size:11px;letter-spacing:1.5px;color:#d6a3ff}
+/* GXRV BLACK/RED AGGRESSIVE REDESIGN */
+:root{--bg:#070707;--p:#141010;--line:#472020;--txt:#fff5f5;--muted:#b9a5a5;--blue:#ff2525;--cyan:#ff6868}
+body{background:radial-gradient(ellipse at 50% -10%,#501010 0%,#170707 32%,#070707 68%);color:var(--txt);background-attachment:fixed}
+.wrap{max-width:1320px;padding:clamp(10px,2vw,24px)}
+.head,.panel,.card{background:linear-gradient(145deg,rgba(31,15,15,.97),rgba(10,10,10,.98));border:1px solid #482020;border-radius:16px;box-shadow:0 10px 30px #0007;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.head{border-top:2px solid #ff3030;box-shadow:0 8px 32px #ff17170d}
+.brand{color:#ff3737;text-shadow:0 0 18px #ff202044}.brand small{color:#c7a2a2}
+.btn,nav button{background:#171010;color:#fff;border:1px solid #542525;border-radius:9px;transition:transform .18s ease,background .18s ease,box-shadow .18s ease,border-color .18s ease}
+.btn:hover,nav button:hover{transform:translateY(-2px);border-color:#ff4242;box-shadow:0 6px 22px #ff202026}
+.primary{background:linear-gradient(110deg,#b90000,#ff3030);border:0;color:white;box-shadow:0 5px 18px #ff161625}
+nav button.active{background:linear-gradient(110deg,#8d0000,#f52a2a);border-color:#ff5c5c;color:#fff}
+.hero{gap:18px}.hero h1{letter-spacing:-1.8px}.grad{background:linear-gradient(90deg,#fff 0%,#ff7373 48%,#ff2020 100%);background-clip:text;color:transparent}
+.eyebrow{color:#ff5555}.card:hover{transform:translateY(-4px);border-color:#a83232;box-shadow:0 12px 30px #0009,0 0 20px #ff202010}
+.art{background:radial-gradient(circle at 50% 20%,#5b1616,#1a0b0b 60%,#090909);border:1px solid #4a2020;position:relative;overflow:hidden}.fruit-illustration{width:76px;height:76px;filter:drop-shadow(0 5px 8px #000b);display:block}.art:has(.fruit-illustration){min-height:112px}.fruit-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.fruit-name{margin:8px 0 5px}.fruit-shine{fill:#fff;opacity:.22}
+.tag{border-color:#6a2929;color:#ffb4b4;background:#260d0d}.value{color:#ff6464}
+.tools input,.tools select,.field input,.field textarea,.field select{background:#090707;border:1px solid #482323;color:#fff;border-radius:9px;outline:none;transition:border-color .2s,box-shadow .2s}
+.tools input:focus,.tools select:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:#ff3939;box-shadow:0 0 0 3px #ff303018}
+.notice{border-color:#672727;background:linear-gradient(110deg,#260d0d,#130909)}
+.empty{border-color:#4c2929}.chatmsg,.memberrow{background:#120909;border-color:#482020}.chatmeta{color:#c99b9b}
+.toast{background:#260d0d;border-color:#a73333}
+.section.active{animation:gxrvEnter .28s ease both}
+@keyframes gxrvEnter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes gxrvGlow{0%,100%{text-shadow:0 0 8px #ff242422}50%{text-shadow:0 0 18px #ff242266}}
+.brand{animation:gxrvGlow 4s ease-in-out infinite}
+button:focus-visible{outline:2px solid #ff7777;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:760px){.nav{padding:12px 0}.nav button{flex:0 0 auto}.hero{grid-template-columns:1fr}}
+
+/* GXRV visual-match pass: compact marketplace dashboard inspired by the selected reference */
+:root{--bg:#050505;--txt:#fff7f7;--muted:#bbaaaa;--line:#3b1717;--red:#ff2929;--panel:#0d0b0b}
+body{background:radial-gradient(ellipse at 55% -15%,#3a0808 0%,#100606 35%,#050505 72%);font-size:14px}
+.wrap{max-width:1540px;padding:12px 16px}
+.head{position:sticky;top:0;z-index:12;padding:13px 17px;background:rgba(8,6,6,.96);backdrop-filter:blur(14px);border-radius:12px}
+.brand{font-size:18px;letter-spacing:2.2px}.brand small{font-size:9px;letter-spacing:2.5px}
+.nav{position:sticky;top:72px;z-index:11;display:flex;gap:6px;padding:10px 0;background:linear-gradient(#090606f2,#090606e8);backdrop-filter:blur(10px);scrollbar-width:thin}
+.nav button{font-size:12px;padding:9px 11px;border-radius:8px;flex:0 0 auto}
+.section .title{font-size:clamp(21px,2.4vw,29px);margin:14px 0 10px}
+.hero{grid-template-columns:minmax(0,1.5fr) minmax(260px,.85fr);gap:12px;margin:10px 0 16px}
+.panel,.card,.head{border-radius:12px}.panel,.card{padding:13px}
+.hero h1{font-size:clamp(34px,4vw,54px);line-height:1.06;margin:10px 0}.hero p{font-size:clamp(15px,1.5vw,19px)}
+.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.art{height:96px;min-height:96px!important;margin-bottom:9px;border-radius:9px}.fruit-illustration{width:66px;height:66px}
+.card h3,.card h4,.fruit-name{font-size:14px}.value{font-size:clamp(18px,2vw,27px);line-height:1.2;overflow-wrap:anywhere}.tag{font-size:10px;padding:3px 7px}
+.tools{gap:8px;margin:10px 0}.tools input,.tools select{padding:10px 12px;font-size:13px}
+#s-fruits .grid,#s-values .grid,#s-passes .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+#s-home .grid.two .card{padding:12px}#s-home .grid.two b{font-size:22px}
+#featured:empty:after{content:'No listings have been published yet.';display:block;grid-column:1/-1;padding:20px;text-align:center;border:1px dashed #4c2929;border-radius:10px;color:#bbaaaa}
+.chat-shell{border-radius:12px}.chat-log{min-height:280px;max-height:58vh}.chat-compose input{width:100%}
+.stock-board{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))}.stock-board .card{padding:12px}
+button:active{transform:scale(.98)}
+@media(min-width:1100px){.wrap{padding:14px 22px}.nav{overflow-x:auto}.section.active{min-height:60vh}}
+@media(max-width:900px){.wrap{padding:10px}.grid,#s-fruits .grid,#s-values .grid,#s-passes .grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:1.2fr .8fr}.nav{top:68px}}
+@media(max-width:600px){.wrap{padding:8px}.head{padding:10px;gap:8px}.brand{font-size:15px}.brand small{font-size:8px}.nav{top:64px;padding:8px 0;gap:5px}.nav button{font-size:11px;padding:8px 9px}.hero{grid-template-columns:1fr;gap:9px}.hero h1{font-size:clamp(30px,8vw,39px)}.hero .panel{padding:13px}.grid,#s-fruits .grid,#s-values .grid,#s-passes .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.grid.two,.row{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:9px}.art{height:76px;min-height:76px!important}.fruit-illustration{width:58px;height:58px}.value{font-size:clamp(17px,5vw,22px)}.section .panel{padding:11px}.chat-compose{align-items:stretch}.chat-compose .field{min-width:100%}.chat-compose button{width:100%}#s-home .grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:360px){.grid,#s-fruits .grid,#s-values .grid,#s-passes .grid{grid-template-columns:1fr}.grid.two,.row,#s-home .grid.two{grid-template-columns:1fr}.brand{letter-spacing:1px}}
+
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body><div class="wrap">
+<header class="head"><div class="brand">👑 GXRV DYNASTY<small>BLOX FRUITS • TRADING HUB</small></div><div><span id="who" class="tag">Guest</span> <button class="btn primary" id="loginOpen">Login / Register</button><button class="btn hidden" id="logout">Logout</button></div></header>
+<nav class="nav" id="nav"><button class="active" data-p="home">🏠 Home</button><button data-p="fruits">🍎 Fruits</button><button data-p="values">💎 Fruit Values</button><button data-p="passes">🎮 Gamepasses</button><button data-p="calc">⚖️ Calculator</button><button data-p="listings">📋 Listings</button><button data-p="normal">🛒 Normal Stock</button><button data-p="mirage">🌌 Mirage Stock</button><button data-p="chat">💬 Community Chat</button><button data-p="reports">🛡️ Scam Reports</button><button data-p="profiles">👤 Profiles</button><button data-p="history">📜 Trade History</button><button data-p="admin" id="adminNav" class="hidden">👑 Admin Panel</button><button data-p="profile">👤 My Profile</button><button data-p="owner" id="ownerNav" class="hidden">👑 Owner</button></nav>
+<section class="section active" id="s-home"><div class="hero"><div class="panel"><div class="eyebrow">BUILT ON TRUST • UNITED BY POWER</div><h1>BLOX FRUITS<br><span class="grad">TRADING HUB</span></h1><p class="muted">Trade fruits, compare values, calculate W/F/L offers and connect with the GXRV DYNASTY trading community.</p><div class="actions"><button class="btn primary" data-go="listings">Explore Listings ↗</button><button class="btn" data-go="calc">Calculate a Trade</button></div><div class="grid two"><div class="card"><b id="listingCount">0</b><br><span class="muted">Trade listings</span></div><div class="card"><b>13 sections</b><br><span class="muted">One trading hub</span></div></div></div><div class="panel"><div style="font-size:40px">🛡️</div><div class="eyebrow">DYNASTY STANDARD</div><h2>Community first.</h2><p class="muted">Clear values, useful trade tools and a dedicated safety centre.</p><div class="notice">Never share your password or account access. Always verify trades in-game.</div><button class="btn" data-go="reports">Safety Centre →</button></div></div><h2 class="title">Featured Trade Listings</h2><div id="featured" class="grid"></div></section>
+<section class="section" id="s-fruits"><h2 class="title">🍎 Fruits</h2><div class="tools"><input id="fs" placeholder="Search fruit"><select id="rar"><option>All rarities</option><option>Common</option><option>Uncommon</option><option>Rare</option><option>Legendary</option><option>Mythical</option></select></div><div id="fruitGrid" class="grid"></div></section>
+<section class="section" id="s-values"><h2 class="title">💎 Fruit Values</h2><p class="muted">Illustrative community estimates, not official values.</p><div class="tools"><input id="vs" placeholder="Search values"></div><div id="valueGrid" class="grid"></div></section>
+<section class="section" id="s-passes"><h2 class="title">🎮 Gamepasses</h2><div id="passGrid" class="grid"></div></section>
+<section class="section" id="s-calc"><h2 class="title">⚖️ W / F / L Calculator</h2><div class="grid two"><div class="panel"><h3>Your Offer</h3><div class="field"><label>Fruit</label><select id="yf"></select></div><div class="field"><label>Quantity</label><input id="yq" type="number" min="1" value="1"></div><p class="value" id="yv"></p></div><div class="panel"><h3>Their Offer</h3><div class="field"><label>Fruit</label><select id="tf"></select></div><div class="field"><label>Quantity</label><input id="tq" type="number" min="1" value="1"></div><p class="value" id="tv"></p></div></div><div class="panel" style="margin-top:12px"><button class="btn primary" id="compare">Compare Trade</button><h2 id="result">Choose items to compare</h2><p class="muted" id="resultText">Values and demand can change.</p></div></section>
+<section class="section" id="s-listings"><h2 class="title">📋 Trade Listings</h2><div class="panel"><div class="row"><div class="field"><label>Type</label><select id="lt"><option>Trading</option><option>Buying</option><option>Selling</option></select></div><div class="field"><label>Fruit / item</label><input id="li" placeholder="e.g. Buddha"></div></div><div class="field"><label>Wants</label><input id="lw" placeholder="What do you want?"></div><button class="btn primary" id="addListing">＋ Add Listing</button><p class="muted">Demo preview stores offers in this page session; shared listings require a configured database.</p></div><div class="tools"><input id="lsearch" placeholder="Search listings"></div><div id="listingGrid" class="grid"></div></section>
+<section class="section" id="s-normal"><div class="panel stock-hero"><span class="eyebrow">IN-GAME CHECK RECOMMENDED</span><h2 class="title">🛒 Normal Stock Tracker</h2><p class="muted">Latest community-posted normal stock update from the existing GXRV stock database.</p><div class="stock-board" id="stock-live-normal"><div class="empty">Loading the latest normal stock…</div></div><button class="btn" data-refresh-stock="normal">↻ Refresh stock</button></div></section>
+<section class="section" id="s-mirage"><div class="panel mirage-hero"><span class="eyebrow">🌌 MIRAGE ISLAND • COMMUNITY SIGHTINGS</span><h2 class="title">Mirage Stock & Sightings</h2><p class="muted">A separate sighting board, using the existing Supabase stock records. Always verify sightings in-game.</p><div class="mirage-status"><span>LIVE COMMUNITY BOARD</span><span class="tag">Not official game data</span></div><div class="stock-board" id="stock-live-mirage"><div class="empty">Loading the latest Mirage update…</div></div><button class="btn" data-refresh-stock="mirage">↻ Refresh Mirage board</button></div></section>
+<section class="section" id="s-chat"><div class="chat-heading"><div><span class="eyebrow">GXRV DYNASTY • PUBLIC ROOM</span><h2 class="title">💬 Community Lounge</h2><p class="muted">Talk trades, ask questions and help members safely.</p></div><span class="tag" id="onlineCount">Online: —</span></div><div class="notice">Public messages are visible to signed-in members and may be reviewed by authorized moderators. Never share passwords or recovery codes.</div><div class="panel chat-shell"><div class="chat-toolbar"><b id="chatStatus">Connecting…</b><button class="btn" id="refreshChat">↻ Refresh chat</button></div><div id="chatLog" class="chat-log"><div class="empty">Loading community messages…</div></div><div class="chat-compose"><div class="field"><label for="msg">Your message</label><input id="msg" maxlength="500" placeholder="Ask about a trade or say hello…"></div><button class="btn primary" id="send">Send message ↗</button></div></div></section>
+<section class="section" id="s-reports"><h2 class="title">🛡️ Scam Reports</h2><div class="panel"><div class="notice">Do not include passwords, recovery codes or sensitive personal details.</div><div class="field"><label>Reported username / public ID</label><input id="ru"></div><div class="field"><label>Issue</label><select id="rt"><option>Suspected scam</option><option>Harassment / abuse</option><option>Trade dispute</option><option>Other rule violation</option></select></div><div class="field"><label>Details</label><textarea id="rd"></textarea></div><button class="btn primary" id="report">Submit Report</button><p class="muted">Private delivery must be enforced by backend permissions; this preview does not send reports to moderators.</p></div></section>
+<section class="section" id="s-profiles"><h2 class="title">👤 Trader Profiles</h2><div class="panel"><div class="field"><label>Search public username / community ID</label><input id="ps"></div><button class="btn primary" id="pf">Find Trader</button><div id="pr" style="margin-top:12px"></div></div></section>
+<section class="section" id="s-history"><h2 class="title">📜 Trade History</h2><div class="panel"><div class="row"><div class="field"><label>Trader</label><input id="ht"></div><div class="field"><label>Date</label><input id="hd" type="date"></div></div><div class="field"><label>Trade summary</label><input id="hs" placeholder="Gave … / received …"></div><button class="btn primary" id="ha">Save Record</button><div id="hl" style="margin-top:12px"></div></div></section>
+<section class="section" id="s-admin"><h2 class="title">👑 Admin Panel</h2><div class="panel"><span class="tag">AUTHORIZED ADMIN ONLY</span><h3>GXRV DYNASTY Moderation</h3><p class="muted">Enter the target member’s Supabase User UID. Only authorized admins can create or remove restrictions.</p><div class="notice">Ban = permanent site restriction. Temporary ban = restriction until expiry. Restrict = limited access flag. These controls affect this website only; they do not ban anyone from Roblox or Discord.</div><div class="field"><label>Target User UID</label><input id="modUid" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off"></div><div class="row"><div class="field"><label>Action</label><select id="modAction"><option value="ban">Permanent Ban</option><option value="temp_ban">Temporary Ban</option><option value="restricted">Restricted</option><option value="unban">Remove Restriction / Unban</option></select></div><div class="field"><label>Duration (hours, temporary ban only)</label><input id="modHours" type="number" min="1" max="8760" value="24"></div></div><div class="field"><label>Reason</label><textarea id="modReason" placeholder="Reason for this moderation action"></textarea></div><button class="btn primary" id="applyMod">Apply Action</button><button class="btn" id="refreshMods">Refresh Restrictions</button><h3 class="title">Current Restrictions</h3><div id="modList"><div class="muted">Sign in as admin and load restrictions.</div></div></div></section>
+<footer>GXRV DYNASTY • Community-made trading hub • Not affiliated with Roblox or Blox Fruits.<br>Sample values are estimates and may be inaccurate.</footer></div><div id="toast" class="toast"></div>
+<div id="modal" style="display:none;position:fixed;inset:0;background:#000c;z-index:20;place-items:center;padding:15px"><div class="panel" style="width:min(430px,100%)"><button class="btn" style="float:right" id="close">✕</button><h2>Login / Register</h2><p class="muted">Sign in or create an account with your email and password.</p><div class="field"><label>Email</label><input type="email" id="email"></div><div class="field"><label>Password</label><input type="password" id="password"></div><button class="btn primary" id="login">Login</button><button class="btn" id="register">Register</button><p class="muted">Email confirmation is controlled by your Supabase project settings.</p></div></div>
+<script>
+const F=[["Rocket","Common","🚀",5000],["Spin","Common","🌀",7500],["Blade","Common","🗡️",30000],["Spring","Common","🌱",60000],["Bomb","Common","💣",80000],["Smoke","Common","💨",100000],["Flame","Uncommon","🔥",250000],["Ice","Uncommon","❄️",350000],["Sand","Uncommon","🏜️",420000],["Dark","Uncommon","🌑",500000],["Light","Rare","✨",800000],["Magma","Rare","🌋",1100000],["Quake","Rare","🌊",1000000],["Buddha","Legendary","🙏",1200000],["Portal","Legendary","🌀",2000000],["Rumble","Legendary","⚡",2100000],["Blizzard","Legendary","🌨️",2200000],["Dough","Mythical","🍩",2800000],["Shadow","Mythical","🌘",2900000],["Venom","Mythical","☠️",3000000],["Control","Mythical","🎛️",3200000],["Spirit","Mythical","👻",3400000],["Leopard","Mythical","🐆",5000000],["Yeti","Mythical","❄️",6000000],["Kitsune","Mythical","🦊",8000000],["Dragon","Mythical","🐉",9000000]];
+const P=[["2x Money","💰","4.5M"],["2x Mastery","⚔️","3.5M"],["Fast Boats","🚤","1.5M"],["Fruit Notifier","🔔","9M"],["+1 Fruit Storage","📦","4.5M"],["2x Boss Drops","👑","2.5M"]];
+const $=x=>document.getElementById(x), esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])), nfmt=n=>Number(n).toLocaleString("en-US");let offers=[],chats=[],hist=[];
+function go(p){document.querySelectorAll(".section").forEach(s=>{const selected=s.id==="s-"+p;s.classList.toggle("active",selected);s.classList.toggle("hidden",!selected)});document.querySelectorAll("[data-p]").forEach(b=>b.classList.toggle("active",b.dataset.p===p));scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>go(b.dataset.p));document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+const fruitColors={Rocket:['#e7e7e7','#ff5b35'],Spin:['#8b67ff','#4de0ff'],Blade:['#bfc7d8','#626c83'],Spring:['#a7f26b','#3a9c4b'],Bomb:['#383838','#e84c4c'],Smoke:['#e5e5e5','#8a9aa8'],Flame:['#ffcf38','#ff3b1f'],Ice:['#b7f8ff','#3c9fff'],Sand:['#f6d58a','#b27a35'],Dark:['#a98bdb','#29213f'],Light:['#fff8ad','#f6a52e'],Magma:['#ffb12b','#c71f20'],Quake:['#9beaff','#4168cf'],Buddha:['#ffd45c','#ff7a18'],Portal:['#b77aff','#3224a8'],Rumble:['#a4eaff','#2777ff'],Blizzard:['#e8ffff','#63baff'],Dough:['#ffc1f4','#d55dce'],Shadow:['#a58bdb','#26134e'],Venom:['#a5ff48','#4d9c18'],Control:['#ff9eae','#bf2450'],Spirit:['#a6ffff','#5a6cff'],Leopard:['#ffc45c','#a44c1f'],Yeti:['#e8ffff','#8bbdff'],Kitsune:['#ffb45c','#e83d64'],Dragon:['#ff6e48','#a80020']};
+function fruitArt(f){const c=fruitColors[f[0]]||['#ff7979','#8d1111'];let seed=[...f[0]].reduce((a,x)=>a+x.charCodeAt(0),0);let shape=seed%3===0?'M50 20 C24 13 15 36 22 57 C27 77 42 83 50 82 C58 83 73 77 78 57 C85 36 76 13 50 20Z':seed%3===1?'M50 18 C34 14 22 28 24 48 C25 67 38 81 50 82 C62 81 75 67 76 48 C78 28 66 14 50 18Z':'M50 21 C31 12 18 31 23 52 C27 70 40 82 50 80 C60 82 73 70 77 52 C82 31 69 12 50 21Z';return `<svg class="fruit-illustration" viewBox="0 0 100 100" role="img" aria-label="${esc(f[0])} fruit illustration"><defs><linearGradient id="g${seed}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient></defs><path d="M50 24 Q48 10 58 7" fill="none" stroke="#9c6b37" stroke-width="6" stroke-linecap="round"/><path d="M53 15 Q67 2 77 14 Q66 25 53 20Z" fill="#4cbb55"/><path d="${shape}" fill="url(#g${seed})" stroke="#ffd4d4" stroke-opacity=".42" stroke-width="2"/><path d="M32 34 Q25 48 34 59 M67 31 Q76 43 68 55 M43 25 Q50 31 44 39 M55 48 Q48 56 57 65" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3.5" stroke-linecap="round"/><ellipse class="fruit-shine" cx="36" cy="31" rx="7" ry="11" transform="rotate(25 36 31)"/><circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-opacity=".1"/></svg>`}
+function fruitCard(f){return `<article class="card"><div class="art">${fruitArt(f)}</div><div class="fruit-card-head"><h3 class="fruit-name">${esc(f[0])}</h3><span class="tag">${esc(f[1])}</span></div><p class="value">Est. ${nfmt(f[3])}</p><small class="muted">Community estimate</small></article>`}
+function drawF(){let q=$("fs").value.toLowerCase(),r=$("rar").value;$("fruitGrid").innerHTML=F.filter(f=>f[0].toLowerCase().includes(q)&&(r==="All rarities"||f[1]===r)).map(fruitCard).join("")||'<div class="empty">No fruit found.</div>'}
+function drawV(){let q=$("vs").value.toLowerCase();$("valueGrid").innerHTML=F.filter(f=>f[0].toLowerCase().includes(q)).map(f=>`<article class="card"><div class="art">${fruitArt(f)}</div><h3>${esc(f[0])}</h3><span class="tag">${esc(f[1])}</span><p>Physical: <b class="value">${nfmt(f[3])}</b></p><p>Permanent: <b class="value">${nfmt(f[3]*100)}</b></p><small class="muted">Illustrative estimate only</small></article>`).join("")}
+$("passGrid").innerHTML=P.map(p=>`<article class="card"><div class="art">${p[1]}</div><h3>${p[0]}</h3><p class="value">Est. ${p[2]}</p><span class="tag">Gamepass</span></article>`).join("");
+function drawL(){let q=$("lsearch").value.toLowerCase(),a=offers.filter(o=>(o.item+" "+o.want).toLowerCase().includes(q));$("listingGrid").innerHTML=a.map(o=>`<article class="card"><div class="art">🤝</div><h3>${esc(o.item)}</h3><span class="tag">${esc(o.type)}</span><p>Wants: ${esc(o.want||"Offers")}</p></article>`).join("")||'<div class="empty">No listings yet. Add an offer above.</div>';$("featured").innerHTML=offers.slice(0,3).map(o=>`<article class="card"><div class="art">🤝</div><h3>${esc(o.item)}</h3><span class="tag">${esc(o.type)}</span><p>${esc(o.want||"Offers")}</p></article>`).join("")||'<div class="empty">Featured member offers will appear here.</div>';$("listingCount").textContent=offers.length}
+$("addListing").onclick=()=>{if(!$("li").value.trim())return notify("Enter an item.");offers.unshift({type:$("lt").value,item:$("li").value.trim(),want:$("lw").value.trim()});$("li").value=$("lw").value="";drawL();notify("Added to this preview session.")};$("lsearch").oninput=drawL;
+["fs","rar"].forEach(i=>$(i).oninput=drawF);$("vs").oninput=drawV;
+["yf","tf"].forEach(id=>$(id).innerHTML=F.map(f=>`<option value="${f[0]}">${f[0]}</option>`).join(""));
+function compare(){let a=F.find(f=>f[0]===$("yf").value)[3]*Math.max(1,+$("yq").value),b=F.find(f=>f[0]===$("tf").value)[3]*Math.max(1,+$("tq").value);$("yv").textContent="Value: "+nfmt(a);$("tv").textContent="Value: "+nfmt(b);let d=Math.abs(a-b)/Math.max(a,b)*100;$("result").textContent=d<5?"⚖️ Fair by estimate":b>a?"📈 Win by estimate":"📉 Loss by estimate";$("resultText").textContent="Estimated difference "+d.toFixed(1)+"%. Demand may change the outcome."}["yf","tf","yq","tq"].forEach(id=>$(id).onchange=compare);$("compare").onclick=compare;compare();
+// Shared public chat and online presence. Database tables/policies are created by the companion SQL file.
+let chatChannel=null, presenceChannel=null, presenceUsers={};
+function displayName(user){return user?.user_metadata?.display_name || user?.user_metadata?.username || (user?.email ? user.email.split('@')[0] : 'Member');}
+async function loadCommunityChat(){
+  if(!sb){$("chatStatus").textContent="Supabase unavailable";return;}
+  const {data,error}=await sb.from('gxrv_chat_messages').select('id,user_id,display_name,message,created_at').order('created_at',{ascending:false}).limit(60);
+  if(error){$("chatStatus").textContent="Chat setup needed";$("chatLog").innerHTML='<div class="notice">Chat database is not ready yet. Run GXRV_DYNASTY_CHAT_SETUP.sql in Supabase SQL Editor.</div>';return;}
+  const rows=(data||[]).reverse();
+  $("chatStatus").textContent=currentUser?"Connected":"Sign in to send messages";
+  $("chatLog").innerHTML=rows.map(r=>`<div class="chatmsg"><div class="chatmeta">${esc(r.display_name||'Member')} • ${esc(new Date(r.created_at).toLocaleString())}${isOwner?` • UID: ${esc(r.user_id)}`:''}</div><div>${esc(r.message)}</div>${isOwner?`<button class="btn" data-delete-chat="${esc(r.id)}" style="margin-top:6px">Remove message</button>`:''}</div>`).join('')||'<div class="empty">No messages yet. Start a friendly conversation!</div>';
+  $("chatLog").scrollTop=$("chatLog").scrollHeight;
+  $("chatLog").querySelectorAll('[data-delete-chat]').forEach(btn=>btn.onclick=async()=>{
+    if(!isOwner)return notify('Owner access required.');
+    if(!confirm('Remove this public chat message?'))return;
+    const {error}=await sb.from('gxrv_chat_messages').delete().eq('id',btn.dataset.deleteChat);
+    if(error)return notify('Could not remove message: '+error.message);
+    await loadCommunityChat();notify('Message removed.');
+  });
+}
+async function startPresence(){
+  if(!sb||!currentUser)return;
+  if(presenceChannel){try{await sb.removeChannel(presenceChannel)}catch(e){}}
+  presenceChannel=sb.channel('gxrv-dynasty-presence',{config:{presence:{key:currentUser.id}}});
+  presenceChannel.on('presence',{event:'sync'},()=>{
+    presenceUsers=presenceChannel.presenceState();
+    const count=Object.keys(presenceUsers).length;
+    const el=$('onlineCount');if(el)el.textContent='Online: '+count;
+  });
+  await presenceChannel.subscribe(async status=>{
+    if(status==='SUBSCRIBED'){
+      await presenceChannel.track({user_id:currentUser.id,display_name:displayName(currentUser),online_at:new Date().toISOString()});
+      await sb.from('gxrv_profiles').upsert({user_id:currentUser.id,username:displayName(currentUser),last_seen_at:new Date().toISOString()},{onConflict:'user_id'});
+    }
+  });
+}
+async function sendCommunityMessage(){
+  if(!sb)return notify('Supabase unavailable.');
+  if(!currentUser)return notify('Please log in to send a message.');
+  const message=$('msg').value.trim();if(!message)return;
+  if(message.length>500)return notify('Message limit is 500 characters.');
+  const {error}=await sb.from('gxrv_chat_messages').insert({user_id:currentUser.id,display_name:displayName(currentUser),message});
+  if(error)return notify('Could not send: '+error.message);
+  $('msg').value='';await loadCommunityChat();
+}
+if($('send'))$('send').onclick=sendCommunityMessage;
+if($('refreshChat'))$('refreshChat').onclick=loadCommunityChat;
+if($('msg'))$('msg').addEventListener('keydown',e=>{if(e.key==='Enter')sendCommunityMessage()});
+async function loadOwnerMembers(){
+  if(!isOwner)return notify('Owner access required.');
+  const el=$('ownerMemberList');if(!el)return;
+  el.innerHTML='<div class="muted">Loading members…</div>';
+  const {data,error}=await sb.from('gxrv_profiles').select('user_id,username,bio,avatar_url,last_seen_at,created_at').order('last_seen_at',{ascending:false}).limit(200);
+  if(error){el.innerHTML='<div class="notice">Member table unavailable. Run the chat setup SQL. '+esc(error.message)+'</div>';return;}
+  const onlineIds=new Set(Object.keys(presenceUsers));
+  el.innerHTML=(data||[]).map(m=>`<div class="memberrow"><b><span class="${onlineIds.has(m.user_id)?'onlineDot':'offlineDot'}"></span>${esc(m.username||'Member')}</b><div class="muted" style="font-size:12px">UID: ${esc(m.user_id)}</div><div class="muted" style="font-size:12px">Status: ${onlineIds.has(m.user_id)?'Online now':'Offline / not visible in this live session'}</div><div class="muted" style="font-size:12px">Last seen: ${m.last_seen_at?esc(new Date(m.last_seen_at).toLocaleString()):'Not recorded'}</div><div>${esc(m.bio||'')}</div></div>`).join('')||'<div class="empty">No member profiles recorded yet. Members appear after signing in.</div>';
+}
+if($('ownerMembersBtn'))$('ownerMembersBtn').onclick=loadOwnerMembers;
+
+$("report").onclick=()=>notify("Report form preview only; secure delivery is not connected.");$("pf").onclick=()=>{$("pr").innerHTML='<div class="empty">Profile search needs database connection.</div>'};
+$("ha").onclick=()=>{if(!$("ht").value.trim()||!$("hs").value.trim())return notify("Enter trader and trade summary.");hist.unshift({t:$("ht").value,s:$("hs").value,d:$("hd").value});$("hl").innerHTML=hist.map(h=>`<div class="card"><b>${esc(h.t)}</b><p>${esc(h.s)}</p><small>${esc(h.d||"Date not set")}</small></div>`).join("")};
+const SUPABASE_URL='https://wlpfdwobntppmdlkapfu.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_H4BqE-74deolLV6_pkgzpA_pLJJbkXy';
+const sb=window.supabase?.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let currentUser=null, isAdmin=false, isOwner=false;
+const OWNER_UID="32fd5db9-9714-4b81-ba0d-51ed7d786224";
+function ownerNotice(msg){ if(typeof notify==="function") notify(msg); else alert(msg); }
+function showSection(id){ document.querySelectorAll(".section").forEach(el=>{el.classList.remove("active");el.classList.add("hidden")}); const el=document.getElementById(id); if(el){el.classList.remove("hidden");el.classList.add("active")} }
+$("loginOpen").onclick=()=>{$("modal").style.display="grid"};$("close").onclick=()=>{$("modal").style.display="none"};
+async function syncAuth(){
+  if(!sb){$("who").textContent="Supabase library failed to load";return}
+  const {data,error}=await sb.auth.getSession();
+  currentUser=data?.session?.user||null; isAdmin=false; isOwner=!!currentUser && currentUser.id===OWNER_UID;
+  if(currentUser){
+    // Admin UI is shown only after the logged-in UID is found in the existing admin table.
+    const {data:adminRow,error:adminErr}=await sb.from('gxrv_admins').select('user_id').eq('user_id',currentUser.id).maybeSingle();
+    isAdmin=!adminErr&&!!adminRow;
+    $("who").textContent=(currentUser.email||"Signed in")+(isAdmin?" • ADMIN":"");
+    $("adminNav").classList.toggle("hidden",!isAdmin);
+    if($("ownerNav")) $("ownerNav").classList.toggle("hidden",!isOwner);
+    if(!isOwner && $("s-owner")) $("s-owner").innerHTML='<div class="panel"><h2>Owner access required</h2><p class="muted">Sign in with the configured Owner account.</p></div>';
+    if(!isAdmin) $("s-admin").innerHTML='<div class="panel"><h2>Admin access required</h2><p class="muted">This account is not listed in the authorized admin table.</p></div>';
+  }else{
+    $("who").textContent="Guest";
+    $("adminNav").classList.add("hidden");
+    if($("ownerNav")) $("ownerNav").classList.add("hidden");
+    $("s-admin").innerHTML='<div class="panel"><h2>Admin access required</h2><p class="muted">Sign in with an authorized administrator account.</p></div>';
+  }
+  $("loginOpen").classList.toggle("hidden",!!currentUser);
+  $("logout").classList.toggle("hidden",!currentUser);
+  if(currentUser && !isAdmin){
+    const {data:restriction,error:restrictionError}=await sb.from('gxrv_user_restrictions').select('action_type,reason,expires_at').eq('user_id',currentUser.id).maybeSingle();
+    if(!restrictionError && restriction && (restriction.action_type==='ban' || restriction.action_type==='restricted' || (restriction.action_type==='temp_ban' && (!restriction.expires_at || new Date(restriction.expires_at)>new Date())))){
+      await sb.auth.signOut();currentUser=null;
+      notify('Access blocked: '+(restriction.reason||restriction.action_type));
+      $("who").textContent='Restricted account';$("loginOpen").classList.remove('hidden');$("logout").classList.add('hidden');
+    }
+  }
+  if(isAdmin) await loadModerationList();
+  if(currentUser){ startPresence(); loadCommunityChat(); } else { $("chatStatus") && ($("chatStatus").textContent="Sign in to chat"); }
+}
+$("login").onclick=async()=>{
+  if(!sb)return notify("Supabase library unavailable. Check connection.");
+  const email=$("email").value.trim(),password=$("password").value;
+  if(!email||!password)return notify("Enter email and password.");
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  if(error)return notify("Login failed: "+error.message);
+  await syncAuth();$("modal").style.display="none";notify(isAdmin?"Admin login successful.":"Login successful.");
+};
+$("register").onclick=async()=>{
+  if(!sb)return notify("Supabase library unavailable. Check connection.");
+  const email=$("email").value.trim(),password=$("password").value;
+  if(!email||!password)return notify("Enter email and password.");
+  if(password.length<6)return notify("Password must be at least 6 characters.");
+  const {data,error}=await sb.auth.signUp({email,password});
+  if(error)return notify("Registration failed: "+error.message);
+  if(data.session){await syncAuth();notify("Account created.");}
+  else notify("Account created, but no session was returned. Check Supabase email confirmation settings.");
+};
+$("logout").onclick=async()=>{if(sb)await sb.auth.signOut();await syncAuth();go("home");notify("Logged out.")};
+function notify(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),3500)}
+document.querySelectorAll('[data-refresh-stock]').forEach(b=>b.addEventListener('click',loadExistingStock));
+if(sb){syncAuth();loadExistingStock();loadCommunityChat();sb.auth.onAuthStateChange(()=>setTimeout(()=>{syncAuth();loadExistingStock();loadCommunityChat()},0));setInterval(()=>{if($('s-chat')?.classList.contains('active'))loadCommunityChat();if($('s-normal')?.classList.contains('active')||$('s-mirage')?.classList.contains('active'))loadExistingStock()},20000);}
+else $("who").textContent="Supabase CDN unavailable";
+
+async function loadExistingStock(){
+  if(!sb)return;
+  for(const type of ['normal','mirage']){
+    const el=$('stock-live-'+type);if(!el)continue;
+    const {data,error}=await sb.from('gxrv_stock').select('stock_type,fruits,note,updated_at').eq('stock_type',type).order('updated_at',{ascending:false}).limit(1);
+    if(error){el.innerHTML='<div class="muted">Stock table not available yet. Existing database data has not been changed.</div>';continue}
+    const row=data?.[0];
+    el.innerHTML=row?`<div class="card"><div class="stock-board">${(row.fruits||[]).map(f=>`<div class="card"><div class="art">${type==='mirage'?'🌌':'🍎'}</div><b>${esc(f)}</b><div><span class="tag">Community update</span></div></div>`).join('')||'<div class="empty">No fruits included in this update.</div>'}</div><p>${esc(row.note||'Community update')}</p><small class="muted">Updated ${new Date(row.updated_at).toLocaleString()}</small></div>`:'<div class="empty">No stock update published yet. A moderator must publish one to the shared stock table.</div>';
+  }
+}
+async function loadModerationList(){
+  if(!sb||!isAdmin)return;
+  const el=$("modList"); if(!el)return;
+  const {data,error}=await sb.from('gxrv_user_restrictions').select('user_id,action_type,reason,expires_at,created_at').order('created_at',{ascending:false}).limit(100);
+  if(error){el.innerHTML='<div class="notice">Moderation table unavailable. Run the supplied SQL setup file in Supabase SQL Editor.</div>';return;}
+  el.innerHTML=(data||[]).map(r=>`<div class="card" style="margin:8px 0"><b>${esc(r.action_type)}</b><p class="muted" style="overflow-wrap:anywhere">UID: ${esc(r.user_id)}</p><p>${esc(r.reason||'No reason supplied')}</p><small class="muted">${r.expires_at?'Expires: '+esc(new Date(r.expires_at).toLocaleString()):'No expiry'} • ${esc(new Date(r.created_at).toLocaleString())}</small></div>`).join('')||'<div class="empty">No active restriction records.</div>';
+}
+if($("applyMod"))$("applyMod").onclick=async()=>{
+  if(!sb||!isAdmin)return notify('Admin access required.');
+  const uid=$("modUid").value.trim(),action=$("modAction").value,reason=$("modReason").value.trim();
+  if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(uid))return notify('Enter a valid Supabase User UID.');
+  if(uid===currentUser.id)return notify('You cannot restrict your own admin account.');
+  if(!reason && action!=='unban')return notify('Enter a reason for this action.');
+  if(action==='unban'){
+    const {error}=await sb.from('gxrv_user_restrictions').delete().eq('user_id',uid);
+    if(error)return notify('Could not remove restriction: '+error.message);
+    notify('Restriction removed.');
+  }else{
+    let expires_at=null;
+    if(action==='temp_ban'){
+      const hours=Number($("modHours").value);if(!Number.isFinite(hours)||hours<1||hours>8760)return notify('Duration must be 1–8760 hours.');
+      expires_at=new Date(Date.now()+hours*3600000).toISOString();
+    }
+    const {error}=await sb.from('gxrv_user_restrictions').upsert({user_id:uid,action_type:action,reason,expires_at,created_by:currentUser.id,created_at:new Date().toISOString()},{onConflict:'user_id'});
+    if(error)return notify('Could not apply action: '+error.message);
+    notify('Moderation action saved.');
+  }
+  await loadModerationList();
+};
+if($("refreshMods"))$("refreshMods").onclick=loadModerationList;
+/* Front-end admin visibility is only a convenience. Enforce admin permissions with Supabase RLS policies too.
+   Never place a service-role/secret key in a public HTML file. */
+
+// Basic profile editor: saved locally on this device/browser.
+(function(){
+  const $p = id => document.getElementById(id);
+  const key = () => 'gxrv_profile_' + (currentUser?.id || 'guest');
+  function loadProfile(){
+    const saved = JSON.parse(localStorage.getItem(key()) || '{}');
+    if ($p('profileName')) $p('profileName').value = saved.name || '';
+    if ($p('profileBio')) $p('profileBio').value = saved.bio || '';
+    if ($p('profilePreview')) $p('profilePreview').src = saved.photo || 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#15243a"/><text x="50" y="58" text-anchor="middle" font-size="36" fill="#68e4ff">👤</text></svg>');
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav [data-p="profile"]').forEach(btn => btn.addEventListener('click', () => {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('s-profile')?.classList.add('active');
+      btn.classList.add('active'); loadProfile();
+    }));
+    $p('profilePhoto')?.addEventListener('change', e => {
+      const file=e.target.files?.[0]; if(!file) return;
+      if(file.size > 1024*1024){ alert('Please choose an image under 1 MB.'); e.target.value=''; return; }
+      const reader=new FileReader(); reader.onload=()=>{ $p('profilePreview').src=reader.result; $p('profilePreview').dataset.newPhoto=reader.result; }; reader.readAsDataURL(file);
+    });
+    $p('saveProfile')?.addEventListener('click', () => {
+      try {
+        const old=JSON.parse(localStorage.getItem(key())||'{}');
+        const profile={name:$p('profileName').value.trim(),bio:$p('profileBio').value.trim(),photo:$p('profilePreview').dataset.newPhoto || old.photo || ''};
+        localStorage.setItem(key(), JSON.stringify(profile));
+        $p('profileMessage').textContent='Profile saved on this device.';
+        delete $p('profilePreview').dataset.newPhoto;
+      } catch(e) { $p('profileMessage').textContent='Could not save. Try a smaller profile picture.'; }
+    });
+    loadProfile();
+  });
+})();
+
+</script>
+
+<section class="section" id="s-profile">
+  <div class="panel">
+    <h2>👤 My Profile</h2>
+    <p class="muted">Set your display name, profile picture and bio.</p>
+    <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:16px 0">
+      <img id="profilePreview" alt="Profile picture" src="" style="width:100px;height:100px;object-fit:cover;border-radius:50%;border:2px solid #368cff;background:#0c1321">
+      <div><label for="profilePhoto">Choose profile picture</label><br><input id="profilePhoto" type="file" accept="image/*"><small class="muted" style="display:block">Choose a small image for best results.</small></div>
+    </div>
+    <label for="profileName">Display name</label>
+    <input id="profileName" maxlength="40" placeholder="Enter your name" style="width:100%;margin:6px 0 14px;padding:12px;border-radius:10px;background:#080b14;color:#eef5ff;border:1px solid #304866">
+    <label for="profileBio">Bio</label>
+    <textarea id="profileBio" maxlength="180" rows="3" placeholder="Write a short bio..." style="width:100%;margin:6px 0 14px;padding:12px;border-radius:10px;background:#080b14;color:#eef5ff;border:1px solid #304866"></textarea>
+    <button class="primary btn" id="saveProfile">Save Profile</button>
+    <p class="muted" id="profileMessage">Profile changes are saved in this browser on this device.</p>
+  </div>
+</section>
+
+<section id="s-owner" class="section hidden">
+  <div class="panel">
+    <h2>👑 GXRV DYNASTY — OWNER CONTROL</h2>
+    <p class="muted">Owner account: <code>32fd5db9-9714-4b81-ba0d-51ed7d786224</code></p>
+    <div class="notice">Owner controls are shown only to the configured Owner UID. Sensitive actions must also be enforced by Supabase RLS or secure server-side functions; hiding buttons in HTML alone is not security.</div>
+    <div class="grid">
+      <div class="panel"><h3>🛡️ User Moderation</h3><p>Permanent ban, temporary ban, restrict/unrestrict, unban, reason and moderation history.</p><button onclick="showSection('s-admin')">Open Moderation</button></div>
+      <div class="panel"><h3>👥 Staff Access</h3><p>Manage admins and moderators after a secure server-side role system is configured.</p><button onclick="ownerNotice('Staff management needs a protected database table and server-side permissions before it can change roles.')">Manage Staff</button></div>
+      <div class="panel"><h3>📣 Announcements</h3><p>Prepare global announcements for the community.</p><button onclick="ownerNotice('Announcement publishing needs an announcements table and secure insert policy.')">Announcements</button></div>
+      <div class="panel"><h3>🍎 Trading Controls</h3><p>Fruit values, listings and stock management.</p><button onclick="ownerNotice('Trading controls need to be connected to your existing stock/listings tables.')">Trading Settings</button></div>
+      <div class="panel"><h3>🔒 Security</h3><p>Audit logs, emergency lockdown and access review.</p><button onclick="ownerNotice('Security actions require protected server-side functions; this button does not change site access yet.')">Security Tools</button></div>
+      <div class="panel"><h3>👥 Members & Activity</h3><p>See member profiles, UID, online presence and last-seen data when they use the site. Online status is approximate and only works while the page is connected.</p><button class="btn primary" id="ownerMembersBtn">Open Member Monitor</button><div id="ownerMemberList" style="margin-top:12px"></div></div>
+      <div class="panel"><h3>📊 Site Overview</h3><p>View status and plan future administration tools.</p><button onclick="ownerNotice('Analytics are not connected yet.')">View Analytics</button></div>
+    </div>
+  </div>
+</section>
+
+</body></html>
