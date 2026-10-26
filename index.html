@@ -1,8 +1,63 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080b14"><title>GXRV DYNASTY Trading Hub</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10091f"><title>GXRV DYNASTY Trading Hub</title>
 <style>
-:root{--bg:#080b14;--p:#111b2d;--line:#263953;--txt:#eef5ff;--muted:#9eafc8;--blue:#368cff;--cyan:#68e4ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17345b,transparent 48%),var(--bg);color:var(--txt);font:15px/1.5 system-ui,Arial}.wrap{max-width:1200px;margin:auto;padding:16px}.head,.panel,.card{background:linear-gradient(145deg,#132037,#0c1321);border:1px solid var(--line);border-radius:18px;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-weight:950;letter-spacing:2px;font-size:20px}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:3px}.btn,nav button{background:#15243a;color:var(--txt);border:1px solid #304866;padding:10px 13px;border-radius:11px;cursor:pointer}.primary{background:linear-gradient(110deg,#247be2,#6652ed);border:0}.nav{display:flex;gap:7px;overflow:auto;padding:14px 0}.nav button{white-space:nowrap}.nav button.active{background:#244e83;border-color:var(--cyan)}.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin:14px 0}.hero h1{font-size:clamp(35px,5vw,60px);line-height:1.04;margin:12px 0}.grad{background:linear-gradient(90deg,#fff,#7ce4ff,#a89aff);background-clip:text;color:transparent}.muted{color:var(--muted)}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:3px;font-weight:900}.actions,.tools{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}.section{display:none}.section.active{display:block}.title{margin:22px 0 12px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:15px;min-width:0}.art{height:90px;display:grid;place-items:center;font-size:46px;border-radius:12px;background:radial-gradient(circle at top,#294a78,#111c30);margin-bottom:12px}.tag{display:inline-block;border:1px solid #35557b;color:#c3e5ff;border-radius:999px;padding:3px 8px;font-size:11px}.value{color:var(--cyan);font-weight:900}.tools input,.tools select,.field input,.field textarea,.field select{background:#080f1b;border:1px solid #2b405c;border-radius:10px;padding:11px;color:var(--txt);min-width:0}.tools input{flex:1;min-width:150px}.field{display:flex;flex-direction:column;gap:6px;margin:12px 0}.field label{font-size:12px;color:#bfd0e8}.field textarea{min-height:90px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notice{padding:12px;border:1px solid #315273;background:#10243a;border-radius:12px;margin:12px 0}.hidden{display:none!important}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed #344760;border-radius:13px}.toast{display:none;position:fixed;bottom:18px;right:18px;background:#183453;border:1px solid #4b82bd;border-radius:12px;padding:12px}.toast.show{display:block}footer{text-align:center;color:#778ba8;font-size:12px;padding:28px}
-@media(max-width:760px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.head{position:static}}@media(max-width:500px){.wrap{padding:9px}.grid,.grid.two,.row{grid-template-columns:1fr}.hero h1{font-size:39px}}
+:root{--bg:#090512;--panel:#171027;--panel2:#211437;--line:#4d3473;--txt:#f8f2ff;--muted:#b6a5ce;--accent:#a855f7;--accent2:#ec7cff;--cyan:#b9a2ff;--good:#a7f3d0;--shadow:0 18px 50px #03000899}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 8% -5%,#5b21b644,transparent 35%),radial-gradient(ellipse at 100% 5%,#c026d322,transparent 30%),linear-gradient(160deg,#090512,#10091d 52%,#08040e);color:var(--txt);font:15px/1.55 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(#b78cff12 1px,transparent 1px),linear-gradient(90deg,#b78cff12 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%);z-index:-1}
+.wrap{max-width:1240px;margin:auto;padding:18px}
+.head,.panel,.card{background:linear-gradient(145deg,#211536ee,#110b1fee);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:relative;overflow:hidden}
+.head:after{content:"";position:absolute;right:-65px;top:-90px;width:210px;height:210px;border-radius:50%;background:#a855f722;filter:blur(20px);pointer-events:none}
+.brand{font-weight:1000;letter-spacing:2px;font-size:clamp(18px,3vw,25px);text-shadow:0 0 20px #c084fc55}
+.brand small{display:block;font-size:10px;color:#d4b8f5;letter-spacing:3px}
+.btn,nav button{background:#241638;color:var(--txt);border:1px solid #67428d;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:750;transition:transform .18s,border-color .18s,box-shadow .18s}
+.btn:hover,nav button:hover{transform:translateY(-2px);border-color:#e879f9;box-shadow:0 8px 24px #a855f733}
+.primary{background:linear-gradient(115deg,#7c3aed,#c026d3);border:0;box-shadow:0 8px 25px #a855f733}
+.nav{display:flex;gap:8px;overflow-x:auto;padding:14px 1px 16px;scrollbar-width:thin;scrollbar-color:#7041a4 #120b1e}
+.nav button{white-space:nowrap;flex:0 0 auto}
+.nav button.active{background:linear-gradient(115deg,#6d28d9,#a21caf);border-color:#e9a8ff;box-shadow:0 0 18px #a855f755}
+.hero{display:grid;grid-template-columns:1.35fr .85fr;gap:16px;margin:8px 0 18px}
+.hero .panel:first-child{background:radial-gradient(ellipse at 90% 5%,#9333ea33,transparent 38%),linear-gradient(145deg,#211336,#100a1b);padding:clamp(20px,4vw,38px)}
+.hero h1{font-size:clamp(36px,5.6vw,68px);line-height:.99;letter-spacing:-1.8px;margin:14px 0 18px}
+.grad{background:linear-gradient(90deg,#fff,#d8b4fe,#f0abfc);background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 16px #c084fc2a)}
+.muted{color:var(--muted)}
+.eyebrow{color:#e9a8ff;font-size:11px;letter-spacing:3px;font-weight:950}
+.actions,.tools{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}
+.section{display:none;animation:fadeUp .25s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:.45;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.title{margin:24px 0 13px;letter-spacing:.2px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{padding:16px;min-width:0;transition:transform .2s,border-color .2s,box-shadow .2s;overflow:hidden}
+.card:hover{transform:translateY(-3px);border-color:#a855f7;box-shadow:0 16px 38px #0007,0 0 20px #a855f71c}
+.card h3{margin:7px 0}
+.art{height:100px;display:grid;place-items:center;font-size:48px;border-radius:15px;background:radial-gradient(circle at 50% 0%,#813acb66,#2a1743 50%,#120b20);border:1px solid #573679;margin-bottom:12px;text-shadow:0 0 22px #d8b4fe55}
+.tag{display:inline-block;border:1px solid #704b94;color:#e6ceff;background:#8b5cf61a;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800}
+.value{color:#e9b7ff;font-weight:950;text-shadow:0 0 14px #a855f72b}
+.tools input,.tools select,.field input,.field textarea,.field select{background:#0e0819;border:1px solid #50336e;border-radius:12px;padding:12px;color:var(--txt);min-width:0;outline:none}
+.tools input:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:#c084fc;box-shadow:0 0 0 3px #a855f722}
+.tools input{flex:1;min-width:150px}
+.field{display:flex;flex-direction:column;gap:7px;margin:13px 0}
+.field label{font-size:12px;color:#ddc8f5;font-weight:750}
+.field textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.notice{padding:13px 15px;border:1px solid #71449b;background:#8b5cf618;border-radius:14px;margin:13px 0;color:#e8d9fa}
+.hidden{display:none!important}
+.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed #62447c;background:#160d22;border-radius:14px;grid-column:1/-1}
+.toast{display:none;position:fixed;bottom:18px;right:18px;background:#241437;border:1px solid #a855f7;border-radius:13px;padding:12px 16px;box-shadow:var(--shadow);z-index:50;max-width:calc(100vw - 36px)}
+.toast.show{display:block}
+footer{text-align:center;color:#9d89b7;font-size:12px;padding:30px 8px}
+#modal{backdrop-filter:blur(8px)}
+#modal>.panel{max-height:90dvh;overflow:auto}
+#chatLog,#modList,#reportList,#stock-live-normal,#stock-live-mirage{overflow-wrap:anywhere}
+input,select,textarea,button{font:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid #e879f9;outline-offset:3px}
+@media(max-width:760px){.wrap{padding:11px}.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.head{position:relative}.hero h1{font-size:clamp(38px,10vw,54px)}.nav{margin:0 -2px}.panel{padding:15px}}
+@media(max-width:500px){.wrap{padding:8px}.grid,.grid.two,.row{grid-template-columns:1fr}.hero h1{font-size:40px}.head{border-radius:16px;padding:14px}.brand{font-size:18px}.head .btn{padding:9px 10px}.nav button{padding:9px 11px;font-size:13px}.card{padding:13px}.art{height:86px}.tools{gap:7px}.tools input{min-width:100%;width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body><div class="wrap">
 <header class="head"><div class="brand" id="ownerBrand" title="Owner access">👑 GXRV DYNASTY<small>BLOX FRUITS • TRADING HUB</small></div><div><span id="who" class="tag">Guest</span> <button class="btn primary" id="loginOpen">Login / Register</button><button class="btn hidden" id="logout">Logout</button></div></header>
 <nav class="nav" id="nav"><button class="active" data-p="home">🏠 Home</button><button data-p="fruits">🍎 Fruits</button><button data-p="values">💎 Fruit Values</button><button data-p="passes">🎮 Gamepasses</button><button data-p="calc">⚖️ Calculator</button><button data-p="listings">📋 Listings</button><button data-p="normal">🛒 Normal Stock</button><button data-p="mirage">🌌 Mirage Stock</button><button data-p="chat">💬 Community Chat</button><button data-p="reports">🛡️ Scam Reports</button><button data-p="profiles">👤 Profiles</button><button data-p="history">📜 Trade History</button><button data-p="admin" id="adminNav" class="hidden">👑 Admin Panel</button></nav>
